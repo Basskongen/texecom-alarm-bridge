@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.0
+
+- Virtual keypad: a Lovelace card (`texecom-keypad.js`, written to `/config/www` by the
+  app) shows the panel's display and LEDs live and sends a 4-digit code plus one action
+  key. The app sends No, No, the code and the key, checks "Kode Akseptert" and the user
+  name on the display, refuses Master/Install codes, blocks menu, reset and omit, and
+  allows 3 attempts per minute. Off by default (`keypad_enabled`).
+- Keypad display and LED entities, refreshed every second while the keypad is enabled.
+
 ## 0.1.3
 
 - Login no longer fails when the panel sends a Connect log message inside the UDL

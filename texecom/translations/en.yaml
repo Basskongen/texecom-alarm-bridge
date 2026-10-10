@@ -47,6 +47,15 @@ configuration:
   area_config:
     name: Area overrides
     description: Optional per-area name and part-arm mapping.
+  keypad_enabled:
+    name: Virtual keypad
+    description: Accept code + action key from the keypad card. The app refuses engineer/master codes, menu, reset and omit, and allows 3 attempts per minute.
+  keypad_poll_interval:
+    name: Keypad display refresh (seconds)
+    description: How often the keypad display and LEDs are read while the virtual keypad is enabled.
+  install_card:
+    name: Install the keypad card
+    description: Write texecom-keypad.js to Home Assistant's www folder at start-up.
   legacy_prefix:
     name: Prefix of the bridge being replaced
     description: Leave empty for a new installation. Set it to the MQTT prefix the previous bridge used, and this app reuses its entity ids, device and topics so existing automations keep working.

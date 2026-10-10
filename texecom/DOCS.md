@@ -42,6 +42,9 @@ connections for about a minute; the app waits and retries automatically.
 | `zone_config` | [] | Per-zone overrides: `number`, `name`, `device_class` |
 | `area_config` | [] | Per-area overrides: `number`, `name`, `part_arm_1..3` |
 | `legacy_prefix` | | MQTT prefix of the bridge this app replaces (see Migrating) |
+| `keypad_enabled` | false | Accept requests from the keypad card |
+| `keypad_poll_interval` | 1 | Seconds between display reads while the keypad is enabled |
+| `install_card` | true | Write the keypad card to `/config/www/texecom-keypad.js` at start-up |
 | `poll_interval` | 5 | Seconds between memory polls |
 | `read_only` | false | Refuse every command that changes the panel |
 | `allow_keypress` | false | Accept virtual key presses on `texecom/cmd/keypress` |
@@ -63,6 +66,34 @@ area_config:
     part_arm_1: armed_night
     part_arm_2: armed_home
 ```
+
+## Virtual keypad
+
+The card looks like the panel's keypad: the 2x16 display and the LEDs are read from the
+panel every second, and the keys send a 4-digit user code plus one action key (Yes, No,
+Part, Area, up, down) as a single request on `<prefix>/keypad/send`. The rules live in
+the app, not in the card:
+
+- exactly 4 digits, so the 6-digit Master and Install codes cannot be used;
+- Menu, Reset and Omit are never sent;
+- the app sends No, No first, then the code, reads the display and only sends the
+  action key when it shows "Kode Akseptert" / "Code Accepted" with a user name that is
+  not Master or Install (otherwise it sends No and reports why);
+- at most 3 attempts per minute, in addition to the panel's own lockout;
+- nothing is sent while `read_only` is on or `keypad_enabled` is off.
+
+Setup: enable `keypad_enabled`, restart the app (it writes `texecom-keypad.js` to
+`/config/www`), add `/local/texecom-keypad.js` as a dashboard resource (Settings >
+Dashboards > three dots > Resources, type "JavaScript module"), then add the card:
+
+```yaml
+type: custom:texecom-keypad-card
+prefix: texecom
+title: Alarm
+```
+
+Results are published on `<prefix>/keypad/result` and shown as the "Keypad result"
+sensor. The card needs a logged-in Home Assistant user like any other card.
 
 ## Migrating from another MQTT bridge
 
@@ -127,6 +158,8 @@ All topics start with `mqtt_prefix` (`texecom` by default).
 | `lcd/state`, `lcd/set` | out / in | text |
 | `cmd/reset/<area>` | in | any |
 | `cmd/sync_clock` | in | any |
+| `keypad/send` | in | `{"code": "1234", "key": "yes"}` (keys: yes, no, part, area, up, down; optional `suite` 1-3 after part) |
+| `keypad/state`, `keypad/result` | out | JSON: display lines and LEDs; result of the last request |
 | `cmd/read` | in | `<addr hex> <count> [prog]`: diagnostic memory read, answer on `debug/read` |
 | `cmd/keypress` | in | keys separated by spaces: `0`-`9`, `omit`, `menu`, `yes`, `part`, `no`, `area`, `chime`, `reset`, `up`, `down` |
 
