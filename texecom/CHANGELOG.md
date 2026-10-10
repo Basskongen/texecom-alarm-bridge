@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.1
+
+- Output sensors stay unknown until the panel reports the output group, instead of
+  showing a wrong "off" for outputs that are on at start-up (for example inverted outputs).
+- Zone names from two-line panel texts no longer carry the padding between the lines.
+- First version verified against a Premier Elite 88 in Home Assistant.
+
 ## 0.1.0
 
 - Per-zone and per-area overrides, part-arm mapping, and an optional legacy mode

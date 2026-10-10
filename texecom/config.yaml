@@ -1,5 +1,5 @@
 name: Texecom Premier Elite
-version: "0.1.0"
+version: "0.1.1"
 slug: texecom
 description: Bridge for Texecom Premier Elite panels (ComIP/SmartCom) to Home Assistant via MQTT discovery
 url: https://github.com/Basskongen/texecom-hassio
