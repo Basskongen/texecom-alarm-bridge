@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.2
+
+- Diagnostic read command on `<prefix>/cmd/read` (payload `<addr hex> <count> [prog]`),
+  result on `<prefix>/debug/read` and in the log. Read-only; user code ranges are refused.
+
 ## 0.1.1
 
 - Output sensors stay unknown until the panel reports the output group, instead of

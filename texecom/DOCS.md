@@ -127,6 +127,7 @@ All topics start with `mqtt_prefix` (`texecom` by default).
 | `lcd/state`, `lcd/set` | out / in | text |
 | `cmd/reset/<area>` | in | any |
 | `cmd/sync_clock` | in | any |
+| `cmd/read` | in | `<addr hex> <count> [prog]`: diagnostic memory read, answer on `debug/read` |
 | `cmd/keypress` | in | keys separated by spaces: `0`-`9`, `omit`, `menu`, `yes`, `part`, `no`, `area`, `chime`, `reset`, `up`, `down` |
 
 ## Safety
