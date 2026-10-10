@@ -1,0 +1,64 @@
+configuration:
+  host:
+    name: Panel address
+    description: IP address or host name of the ComIP / SmartCom module.
+  port:
+    name: Panel port
+    description: TCP port of the ComIP / SmartCom module (normally 10001).
+  udl_code:
+    name: UDL code
+    description: The panel's UDL (download) passcode, 4 to 6 digits. Used for both protocol logins.
+  mqtt_host:
+    name: MQTT host (optional)
+    description: Leave empty to use the Mosquitto app automatically.
+  mqtt_port:
+    name: MQTT port (optional)
+    description: Only used together with MQTT host.
+  mqtt_username:
+    name: MQTT username (optional)
+    description: Only used together with MQTT host.
+  mqtt_password:
+    name: MQTT password (optional)
+    description: Only used together with MQTT host.
+  mqtt_prefix:
+    name: MQTT topic prefix
+    description: All state and command topics start with this prefix.
+  discovery_prefix:
+    name: Discovery prefix
+    description: Home Assistant MQTT discovery prefix (normally homeassistant).
+  max_zones:
+    name: Number of zones
+    description: Highest zone number to read from the panel at start-up.
+  max_areas:
+    name: Number of areas
+    description: Number of areas to read from the panel at start-up.
+  part_arm_1:
+    name: Part arm 1 shows as
+    description: Home Assistant arm state used for part arm 1 (can be overridden per area).
+  part_arm_2:
+    name: Part arm 2 shows as
+    description: Home Assistant arm state used for part arm 2.
+  part_arm_3:
+    name: Part arm 3 shows as
+    description: Home Assistant arm state used for part arm 3.
+  zone_config:
+    name: Zone overrides
+    description: Optional per-zone name and device class (door, motion, smoke, window, ...).
+  area_config:
+    name: Area overrides
+    description: Optional per-area name and part-arm mapping.
+  legacy_prefix:
+    name: Prefix of the bridge being replaced
+    description: Leave empty for a new installation. Set it to the MQTT prefix the previous bridge used, and this app reuses its entity ids, device and topics so existing automations keep working.
+  poll_interval:
+    name: Poll interval
+    description: Seconds between reads of voltages, tamper flags, clock and event log.
+  read_only:
+    name: Read only
+    description: Never send anything that changes the panel (no arm, disarm, omit, switches or text).
+  allow_keypress:
+    name: Allow virtual key presses
+    description: Accept key presses on the command topic. Off by default.
+  log_level:
+    name: Log level
+    description: Amount of logging.

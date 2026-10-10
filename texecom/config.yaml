@@ -1,0 +1,61 @@
+name: Texecom Premier Elite
+version: "0.1.0"
+slug: texecom
+description: Bridge for Texecom Premier Elite panels (ComIP/SmartCom) to Home Assistant via MQTT discovery
+url: https://github.com/Basskongen/texecom-hassio
+image: ghcr.io/basskongen/texecom
+arch:
+  - aarch64
+  - amd64
+init: false
+startup: services
+boot: auto
+services:
+  - mqtt:need
+options:
+  host: ""
+  port: 10001
+  udl_code: ""
+  mqtt_prefix: texecom
+  discovery_prefix: homeassistant
+  max_zones: 88
+  max_areas: 8
+  poll_interval: 5
+  read_only: false
+  allow_keypress: false
+  log_level: info
+  part_arm_1: armed_home
+  part_arm_2: armed_night
+  part_arm_3: armed_vacation
+  zone_config: []
+  area_config: []
+schema:
+  host: str
+  port: port
+  udl_code: password
+  mqtt_host: str?
+  mqtt_port: port?
+  mqtt_username: str?
+  mqtt_password: password?
+  mqtt_prefix: str
+  discovery_prefix: str
+  max_zones: int(8,200)
+  max_areas: int(1,16)
+  poll_interval: int(2,60)
+  read_only: bool
+  allow_keypress: bool
+  log_level: list(debug|info|warning|error)
+  part_arm_1: list(armed_home|armed_night|armed_vacation|armed_custom_bypass)
+  part_arm_2: list(armed_home|armed_night|armed_vacation|armed_custom_bypass)
+  part_arm_3: list(armed_home|armed_night|armed_vacation|armed_custom_bypass)
+  zone_config:
+    - number: int(1,999)
+      name: str?
+      device_class: str?
+  area_config:
+    - number: int(1,16)
+      name: str?
+      part_arm_1: list(armed_home|armed_night|armed_vacation|armed_custom_bypass)?
+      part_arm_2: list(armed_home|armed_night|armed_vacation|armed_custom_bypass)?
+      part_arm_3: list(armed_home|armed_night|armed_vacation|armed_custom_bypass)?
+  legacy_prefix: str?
