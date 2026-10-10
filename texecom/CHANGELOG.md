@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.3
+
+- Login no longer fails when the panel sends a Connect log message inside the UDL
+  login reply (happens when event messages were left on by a previous session).
+- Event messages are switched off before hanging up, and the receive buffer is
+  resynchronised after a timeout.
+
 ## 0.1.2
 
 - Diagnostic read command on `<prefix>/cmd/read` (payload `<addr hex> <count> [prog]`),
