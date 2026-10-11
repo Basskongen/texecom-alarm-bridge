@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.1
+
+- The integration is shown as "Texecom" (not "texecom") and has its own icon. The app uses
+  the same icon in the app store.
+
 ## 0.3.0
 
 - **Home Assistant gets the panel through the new Texecom integration instead of MQTT.**
