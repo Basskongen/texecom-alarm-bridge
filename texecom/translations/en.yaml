@@ -34,7 +34,7 @@ configuration:
     description: Pass every key press from the keypad card to the panel, like the wall keypad.
   keypad_poll_interval:
     name: Keypad display refresh (seconds)
-    description: Seconds between reads of the keypad display and LEDs while the virtual keypad is enabled. 0.25 = 4 times a second.
+    description: Seconds between reads of the keypad display and LEDs while the virtual keypad is enabled.
   install_card:
     name: Install the keypad card
     description: Write texecom-keypad.js to Home Assistant's www folder at start-up.

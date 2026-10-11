@@ -29,7 +29,7 @@ broker needed.
 
 ## Requirements
 
-- Home Assistant OS or Supervised (apps need the Supervisor), Home Assistant 2026.3 or newer.
+- Home Assistant OS or Supervised, 2026.3 or newer.
 - A Texecom Premier Elite panel with a ComIP or SmartCom on a COM port, reachable on the network.
 - The panel's **UDL passcode**, changed from the factory default (see below).
 - No other program connected to the panel: it accepts one client at a time.
@@ -42,8 +42,8 @@ broker needed.
 3. Open the **Configuration** tab and fill in at least:
    - `host`: the IP address of the ComIP / SmartCom
    - `udl_code`: the panel's UDL passcode
-4. Start the app and open the **Log** tab. The first start installs the Texecom
-   integration and shows a notification: **restart Home Assistant**.
+4. Start the app. The first start installs the Texecom integration and asks for a
+   restart of Home Assistant.
 5. After the restart, **Settings > Devices & services** shows **Texecom** as discovered.
    Select **Add**. The panel appears as a device named after its model.
 
@@ -81,7 +81,7 @@ All options are described in the app's **Documentation** tab.
 ### Keypad card
 
 With `keypad_enabled` on, the app installs the card and registers it as a dashboard resource.
-Add it to a dashboard (it also has a visual editor):
+Add it to a dashboard:
 
 ```yaml
 type: custom:texecom-keypad-card
@@ -92,8 +92,7 @@ all_keys: false  # also show the Omit, Chime, Part and Area keys
 
 ## Support
 
-Questions and problems: open an issue in this repository. Include the app log (it never
-contains the UDL passcode or key presses).
+Open an issue in this repository and include the app log.
 
 ---
 

@@ -27,18 +27,15 @@ Change it on the panel first and use the new code in the app settings.
 1. Add this repository in Settings > Apps > App store > ⋮ > Repositories.
 2. Install **Texecom Alarm Bridge**.
 3. Fill in `host` and `udl_code`, then start the app.
-4. The first start installs the Texecom integration and shows a notification: restart
-   Home Assistant (Settings > System > Restart).
+4. The first start installs the Texecom integration and asks for a restart of Home
+   Assistant.
 5. After the restart, Settings > Devices & services shows **Texecom** as discovered.
-   Select **Add**. The panel appears as a device named after its model, for example
-   "Texecom Premier Elite 88".
+   Select **Add**. The panel appears as a device named after its model.
 
 ## App options
 
-The first start looks through zone 1 to `max_zones` and remembers the zones in use.
-Later starts read only those, so start-up is quick, and then look for new zones in the
-background: a zone taken into use appears a little after start-up, and a zone taken out
-of use disappears.
+Zones in use are found on the first start and remembered. Later starts look for added or
+removed zones in the background.
 
 | Option | Default | Description |
 |--------|---------|-------------|
@@ -85,18 +82,15 @@ Settings > Devices & services > Texecom > Configure:
 
 ### Users and codes
 
-Each person can have their own code for Home Assistant (not a panel user code).
-User 1 is created when the integration is set up, with or without a code. Add more
-users with **Add user** on the integration's page, and change a name or code with the
-user's ⋮ > **Reconfigure**. Codes are stored only as a one-way hash in the integration's
-own storage file, never as text. The alarm panel shows who armed or disarmed it
-("Changed by").
+Each person can have their own Home Assistant code (not a panel user code). User 1 is
+created at setup; add more with **Add user** and edit with ⋮ > **Reconfigure**. Codes
+are stored only as a one-way hash. The alarm panel shows who armed or disarmed it.
 
 ## Entities
 
 Entity ids are fixed and never taken from names: the alarm panel for area A is
 `alarm_control_panel.texecom_alarm` (area B `texecom_alarm_b` …), zones are
-`binary_sensor.texecom_zone_<n>`. Names can be changed freely in Home Assistant.
+`binary_sensor.texecom_zone_<n>`.
 
 - **Alarm panel** per area with zones: full arm, part arm 1–3 and disarm. States:
   disarmed, arming, pending, armed (as set with `part_arm_*`), triggered.
@@ -115,14 +109,11 @@ Entity ids are fixed and never taken from names: the alarm panel for area A is
 
 ## Virtual keypad
 
-The card shows the panel's own display and lamps live and sends every key to the
-panel as it is pressed, exactly like the keypad on the wall. The panel's own user codes
-and lockout protect it as they do on the wall. Only administrators can use it unless the
-integration option allows all users. Nothing is sent while `read_only` is on or
-`keypad_enabled` is off.
+The card shows the panel's display and lamps live and sends each key to the panel as it
+is pressed. Only administrators can use it unless the integration option allows all
+users. Nothing is sent while `read_only` is on or `keypad_enabled` is off.
 
-Enable `keypad_enabled` and restart the app; it installs the card itself. Add it to a
-dashboard (it also has a visual editor):
+Enable `keypad_enabled` and restart the app; it installs the card itself:
 
 ```yaml
 type: custom:texecom-keypad-card
@@ -133,14 +124,12 @@ all_keys: false   # also show the Omit, Chime, Part and Area keys
 
 ## Safety
 
-- Zones cannot be omitted and alarms cannot be reset from Home Assistant. Both need a
-  user code on a keypad or the keypad card.
+- Zones cannot be omitted and alarms cannot be reset from Home Assistant.
 - Key presses and the UDL passcode are never written to the log.
 - The app never reads user codes or prox tags.
 - `read_only: true` is recommended for the first run against a new panel.
-- Home Assistant checks password fields against a list of leaked passwords, and short
-  numeric codes are always on it, so a "pwned secret" repair may appear for the UDL
-  passcode. It can be dismissed.
+- A "pwned secret" repair for the UDL passcode can be dismissed (short numeric codes
+  are always on the leaked-password list).
 
 ## Support
 
