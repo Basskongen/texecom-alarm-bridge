@@ -56,6 +56,9 @@ configuration:
   install_card:
     name: Install the keypad card
     description: Write texecom-keypad.js to Home Assistant's www folder at start-up.
+  mqtt_enabled:
+    name: Also publish to MQTT
+    description: Off by default. Home Assistant gets everything through the Texecom integration. Turn on only if other systems need the panel on MQTT; then anyone with access to the broker can see the panel and send commands.
   show_panel_outputs:
     name: Show panel outputs
     description: Show panel output 1-5 as entities in Home Assistant.

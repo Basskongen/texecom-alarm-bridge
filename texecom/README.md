@@ -1,7 +1,7 @@
 # Texecom Alarm Bridge
 
 Connects a Texecom alarm panel of the Premier Elite series (via ComIP or SmartCom) to Home Assistant
-over MQTT with automatic discovery.
+through its own integration, which the app installs. No MQTT broker needed.
 
 Areas appear as alarm panels, zones as binary sensors, plus outputs,
 panel and battery voltage, tamper flags, LCD text and the event log.

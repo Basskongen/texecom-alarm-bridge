@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.3.0
+
+- **Home Assistant gets the panel through the new Texecom integration instead of MQTT.**
+  The app installs the integration itself and asks for a Home Assistant restart; after
+  that Home Assistant offers "Texecom" under Devices & services. The app and the
+  integration talk over a private, token-protected connection on the Supervisor's
+  internal network. Commands, key presses and the panel's state no longer go through
+  the MQTT broker.
+- New entities (new entity ids) replace the MQTT ones, which the app removes from the
+  broker at its first start. Automations and dashboards must be pointed at the new
+  entities.
+- Integration options: a code for disarming from Home Assistant (optional, also for
+  arming if wanted), and whether all users or only administrators may use the keypad card.
+- The keypad card talks to the integration instead of MQTT; the `prefix` setting is gone.
+- MQTT is now optional (`mqtt_enabled`, off by default); the Mosquitto app is no longer
+  needed.
+
 ## 0.2.5
 
 - The app remembers the zones it finds. Later starts read only those and look for new

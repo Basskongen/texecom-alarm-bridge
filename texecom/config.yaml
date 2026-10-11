@@ -1,7 +1,7 @@
 name: Texecom Alarm Bridge
-version: "0.2.5"
+version: "0.3.0"
 slug: texecom
-description: Connects Texecom alarm panels (ComIP/SmartCom) to Home Assistant via MQTT. Independent project, not affiliated with Texecom.
+description: Connects Texecom alarm panels (ComIP/SmartCom) to Home Assistant. Independent project, not affiliated with Texecom.
 stage: experimental
 url: https://github.com/Basskongen/texecom-hassio
 image: ghcr.io/basskongen/texecom
@@ -12,7 +12,9 @@ init: false
 startup: services
 boot: auto
 services:
-  - mqtt:need
+  - mqtt:want
+discovery:
+  - texecom
 homeassistant_api: true
 options:
   host: ""
@@ -34,6 +36,7 @@ options:
   keypad_enabled: false
   keypad_poll_interval: 0.25
   install_card: true
+  mqtt_enabled: false
   show_panel_outputs: false
   show_control_timers: false
 map:
@@ -72,5 +75,6 @@ schema:
   keypad_enabled: bool
   keypad_poll_interval: float(0.25,10)
   install_card: bool
+  mqtt_enabled: bool
   show_panel_outputs: bool
   show_control_timers: bool

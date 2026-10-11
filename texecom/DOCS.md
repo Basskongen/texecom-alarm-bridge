@@ -4,8 +4,8 @@ This is an independent project. It is not made, endorsed or supported by Texecom
 Texecom and Premier Elite are trademarks of their owner and are used here only to
 say which alarm panels the app works with.
 
-Bridges a Texecom alarm panel of the Premier Elite series to Home Assistant over MQTT with automatic
-discovery. Tested against a Premier Elite 88 V5.06.00 with a ComIP on Com Port 1.
+Bridges a Texecom alarm panel of the Premier Elite series to Home Assistant. Tested
+against a Premier Elite 88 V5.06.00 with a ComIP on Com Port 1.
 
 ## How it works
 
@@ -16,6 +16,11 @@ The app opens one TCP connection to the ComIP/SmartCom and logs in twice on it:
 - **UDL protocol**: memory reads for voltages, tamper flags, the keypad
   display, the panel clock and the event log. Writes are limited to a short
   whitelist in the code (clock and banner text).
+
+Home Assistant gets everything through the **Texecom integration**, which the app installs
+itself. The app and the integration talk over a private connection on the Supervisor's
+internal network, protected by a token the app creates; nothing goes through MQTT unless
+you switch MQTT on.
 
 Only one client can be connected to the panel. Stop any other program that uses the connection
 before starting the app. After a dropped connection the panel refuses new
@@ -32,11 +37,22 @@ nobody can guess, and use that code in the app settings.
 
 1. Add this repository in Settings > Apps > App store > three dots > Repositories.
 2. Install "Texecom Alarm Bridge".
-3. Fill in `host` and `udl_code`. MQTT details are taken from the Mosquitto app
-   automatically; set `mqtt_host` only if you run another broker.
-4. Start the app and watch the log. The device, named after the
-   panel model (for example "Texecom Premier Elite 88"), appears
-   under Settings > Devices & services > MQTT.
+3. Fill in `host` and `udl_code`, then start the app.
+4. The first start installs the Texecom integration and shows a notification: restart
+   Home Assistant (Settings > System > Restart).
+5. After the restart, Settings > Devices & services shows **Texecom** as discovered.
+   Select **Add**. The device, named after the panel model (for example
+   "Texecom Premier Elite 88"), appears under the Texecom integration.
+
+### Integration options
+
+Settings > Devices & services > Texecom > Configure:
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| Code for disarming in Home Assistant | empty | Asked for when an area is disarmed from Home Assistant. A Home Assistant code, not a panel user code. Empty = no code |
+| Also ask for the code when arming | off | Only used when a code is set |
+| Let all users use the keypad card | off | Off: only administrators can use the keypad card |
 
 ## Options
 
@@ -51,15 +67,16 @@ a little after start-up, and a zone taken out of use disappears.
 | `host` | | IP address of the ComIP / SmartCom |
 | `port` | 10001 | TCP port |
 | `udl_code` | | UDL passcode (4 to 6 digits). Used for both logins |
-| `mqtt_host`, `mqtt_port`, `mqtt_username`, `mqtt_password` | from Supervisor | Override the broker |
-| `mqtt_prefix` | `texecom` | Topic prefix for state and command topics |
-| `discovery_prefix` | `homeassistant` | MQTT discovery prefix |
+| `mqtt_enabled` | false | Also publish to MQTT (see MQTT below). Off: nothing goes through the broker |
+| `mqtt_host`, `mqtt_port`, `mqtt_username`, `mqtt_password` | from Supervisor | Override the broker (MQTT only) |
+| `mqtt_prefix` | `texecom` | Topic prefix for state and command topics (MQTT only) |
+| `discovery_prefix` | `homeassistant` | MQTT discovery prefix (MQTT only) |
 | `max_zones` | 88 | Highest zone number to look for |
 | `max_areas` | 8 | Number of areas to read at start-up |
 | `part_arm_1`, `part_arm_2`, `part_arm_3` | armed_home, armed_night, armed_vacation | Which Home Assistant arm state each part arm uses |
 | `zone_config` | [] | Per-zone overrides: `number`, `name`, `device_class` |
 | `area_config` | [] | Per-area overrides: `number`, `name`, `part_arm_1..3` |
-| `legacy_prefix` | | MQTT prefix of the bridge this app replaces (see Migrating) |
+| `legacy_prefix` | | Prefix of the bridge this app replaces (see Migrating) |
 | `keypad_enabled` | false | Pass key presses from the keypad card to the panel |
 | `keypad_poll_interval` | 0.25 | Seconds between display reads while the keypad is enabled |
 | `install_card` | true | Write the keypad card to `/config/www/texecom-keypad.js` at start-up |
@@ -67,7 +84,7 @@ a little after start-up, and a zone taken out of use disappears.
 | `show_control_timers` | false | Show control timer 1-8 as entities |
 | `poll_interval` | 5 | Seconds between memory polls |
 | `read_only` | false | Refuse every command that changes the panel |
-| `allow_keypress` | false | Accept virtual key presses on `texecom/cmd/keypress` |
+| `allow_keypress` | false | Accept virtual key presses on `texecom/cmd/keypress` (MQTT only) |
 | `log_level` | info | `debug` logs every frame (the UDL code is masked) |
 
 Example overrides:
@@ -90,9 +107,11 @@ area_config:
 ## Virtual keypad
 
 The card works like the panel's own keypad. The 2x16 display and the LEDs are read
-4 times a second and sent straight to the card over MQTT, so the clock on line 2 does
-not fill Home Assistant's history. The live view needs an admin user; other users see
-line 1 and the LEDs from the entities.
+4 times a second and sent straight to the card through the Texecom integration, so the
+clock on line 2 does not fill Home Assistant's history. Key presses go from the card to
+Home Assistant (logged-in user) and on to the app over the private connection, never
+through MQTT. Only administrators can use the card, unless the integration option
+allows it for all users.
 
 Every key on the card (0-9, Yes, No, Part, Area, arrows, Omit, Menu, Chime, Reset) is
 sent to the panel as it is pressed, exactly like the keypad on the wall. The panel's own
@@ -105,7 +124,6 @@ Setup: enable `keypad_enabled` and restart the app. It writes `texecom-keypad.js
 
 ```yaml
 type: custom:texecom-keypad-card
-prefix: texecom
 title: Alarm
 haptic: true   # vibrate on key presses in the Home Assistant app
 all_keys: false   # also show the Omit, Chime, Part and Area keys
@@ -113,11 +131,17 @@ all_keys: false   # also show the Omit, Chime, Part and Area keys
 
 The card can also be set up in the dashboard's visual editor.
 
-## Migrating from another MQTT bridge
+## Migrating from earlier versions and other bridges
 
-If Home Assistant already has entities from a previous Texecom-to-MQTT bridge, set
-`legacy_prefix` to the MQTT prefix that bridge used (the one its topics start with).
-The app then:
+From 0.3.0 Home Assistant gets the panel through the Texecom integration instead of MQTT.
+With MQTT off, the app removes the MQTT entities of earlier versions from the broker at
+its first start, and the integration creates new ones. Automations, scripts and
+dashboards that used the old entities must be pointed at the new ones.
+
+If Home Assistant had entities from a previous Texecom-to-MQTT bridge, `legacy_prefix`
+(the prefix that bridge's topics started with) keeps their unique ids and the device
+(identified by the panel serial number) inside the integration. With `mqtt_enabled` on,
+the app also:
 
 - publishes discovery with the same unique ids (`<prefix>.area.<slug>`,
   `<prefix>.zone.<slug>`) and the same device (identified by the panel serial number),
@@ -157,9 +181,13 @@ crashes the legacy status topic may stay `online` until it restarts.
   temporary display message (32 characters) can be sent on the `lcd/set` topic.
 - **Button**: sync the panel clock to the app's clock.
 
-## MQTT topics
+## MQTT (optional)
 
-All topics start with `mqtt_prefix` (`texecom` by default).
+Off by default. With `mqtt_enabled: true` the app also publishes everything to the MQTT
+broker with Home Assistant MQTT discovery, as versions before 0.3.0 did. Anyone with access
+to the broker can then see the panel and send commands, including disarm: restrict the
+broker (Mosquitto app: `customize` with an ACL file). All topics start with `mqtt_prefix`
+(`texecom` by default).
 
 | Topic | Direction | Payload |
 |-------|-----------|---------|
@@ -190,10 +218,12 @@ All topics start with `mqtt_prefix` (`texecom` by default).
   possible from a keypad, the wall keypad or the keypad card, with a user code.
 - Key presses and the UDL passcode are never written to the log, not even at debug level.
   At `info` the log only shows events in plain words.
-- Key presses from the keypad card travel over MQTT on `<prefix>/keypad/key`. Anyone who
-  can read that topic on the broker can see them. Restrict the broker so only Home
-  Assistant and this app can use the `texecom/#` topics (Mosquitto app: `customize` with
-  an ACL file), and keep `keypad_enabled` off if you do not need the card.
+- The app and the integration talk over a private connection on the Supervisor's internal
+  network with a token the app creates and keeps in its own data folder. The app maps no
+  ports to the host. Key presses and commands never go through MQTT unless `mqtt_enabled`
+  is on.
+- The keypad card is for administrators only unless the integration option allows all
+  users. Disarming from Home Assistant can require a code (integration option).
 
 - The UDL code is stored with the `password` schema type (masked in the UI). Home
   Assistant checks such values against the Have I Been Pwned list, and short numeric
@@ -201,7 +231,7 @@ All topics start with `mqtt_prefix` (`texecom` by default).
 
 - The app never reads user codes or prox tags and never logs the UDL code.
 - UDL writes are refused unless the address is on the whitelist in
-  `memory_map.py`, whatever arrives on MQTT.
+  `memory_map.py`, whatever command arrives.
 - `read_only: true` is recommended for the first run against a new panel.
 - Area numbers in Connect commands are 1-based (area A = 1), matching what the
   established bridge logs for the same panel.
