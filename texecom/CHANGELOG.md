@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.2.5
+
+- The app remembers the zones it finds. Later starts read only those and look for new
+  zones in the background, so start-up is quick and new zones still appear by themselves.
+- The `zones` setting from 0.2.4 is removed; it is no longer needed.
+- Keypad card: all keys the same size, Menu grey so it is easy to find. Omit, Chime,
+  Part and Area are shown only with the new `all_keys` setting ("Show all keys").
+- Keypad card: the display is centred in the card (the 16-character lines keep the panel's
+  own layout).
+
 ## 0.2.4
 
 - Texts and documentation no longer name other programs.

@@ -40,6 +40,12 @@ nobody can guess, and use that code in the app settings.
 
 ## Options
 
+The first start searches zone 1 to `max_zones` and remembers the zones in use. Later
+starts read only those, so start-up is quick, and then look through the other zone
+numbers in the background: a zone taken into use in the panel appears in Home Assistant
+a little after start-up, and a zone taken out of use disappears.
+
+
 | Option | Default | Description |
 |--------|---------|-------------|
 | `host` | | IP address of the ComIP / SmartCom |
@@ -48,8 +54,7 @@ nobody can guess, and use that code in the app settings.
 | `mqtt_host`, `mqtt_port`, `mqtt_username`, `mqtt_password` | from Supervisor | Override the broker |
 | `mqtt_prefix` | `texecom` | Topic prefix for state and command topics |
 | `discovery_prefix` | `homeassistant` | MQTT discovery prefix |
-| `max_zones` | 88 | Highest zone number to read at start-up |
-| `zones` | | Optional list of zones to read, e.g. `1-5, 74`. Skips searching through all zones and makes start-up faster |
+| `max_zones` | 88 | Highest zone number to look for |
 | `max_areas` | 8 | Number of areas to read at start-up |
 | `part_arm_1`, `part_arm_2`, `part_arm_3` | armed_home, armed_night, armed_vacation | Which Home Assistant arm state each part arm uses |
 | `zone_config` | [] | Per-zone overrides: `number`, `name`, `device_class` |
@@ -103,6 +108,7 @@ type: custom:texecom-keypad-card
 prefix: texecom
 title: Alarm
 haptic: true   # vibrate on key presses in the Home Assistant app
+all_keys: false   # also show the Omit, Chime, Part and Area keys
 ```
 
 The card can also be set up in the dashboard's visual editor.

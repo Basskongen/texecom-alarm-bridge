@@ -28,10 +28,7 @@ configuration:
     description: Home Assistant MQTT discovery prefix (normally homeassistant).
   max_zones:
     name: Number of zones
-    description: Highest zone number to read from the panel at start-up.
-  zones:
-    name: Zones to read (optional)
-    description: List the zones you use, e.g. 1-5, 74. The app then reads only these and skips searching through all zones at start-up. Leave empty to search 1 to the number of zones.
+    description: Highest zone number to look for. Zones found are remembered, so later starts are quick and new zones are found in the background.
   max_areas:
     name: Number of areas
     description: Number of areas to read from the panel at start-up.
