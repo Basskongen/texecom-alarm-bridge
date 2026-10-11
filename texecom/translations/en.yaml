@@ -52,7 +52,7 @@ configuration:
     description: Accept code + action key from the keypad card. The app refuses engineer/master codes, menu, reset and omit, and allows 3 attempts per minute.
   keypad_poll_interval:
     name: Keypad display refresh (seconds)
-    description: How often the keypad display and LEDs are read while the virtual keypad is enabled.
+    description: Seconds between reads of the keypad display and LEDs while the virtual keypad is enabled. 0.25 = 4 times a second, like Wintex.
   install_card:
     name: Install the keypad card
     description: Write texecom-keypad.js to Home Assistant's www folder at start-up.

@@ -43,7 +43,7 @@ connections for about a minute; the app waits and retries automatically.
 | `area_config` | [] | Per-area overrides: `number`, `name`, `part_arm_1..3` |
 | `legacy_prefix` | | MQTT prefix of the bridge this app replaces (see Migrating) |
 | `keypad_enabled` | false | Accept requests from the keypad card |
-| `keypad_poll_interval` | 1 | Seconds between display reads while the keypad is enabled |
+| `keypad_poll_interval` | 0.25 | Seconds between display reads while the keypad is enabled (Wintex uses 0.25) |
 | `install_card` | true | Write the keypad card to `/config/www/texecom-keypad.js` at start-up |
 | `poll_interval` | 5 | Seconds between memory polls |
 | `read_only` | false | Refuse every command that changes the panel |
@@ -70,7 +70,9 @@ area_config:
 ## Virtual keypad
 
 The card looks like the panel's keypad: the 2x16 display and the LEDs are read from the
-panel every second, and the keys send a 4-digit user code plus one action key (Yes, No,
+panel 4 times a second (as Wintex does) and sent straight to the card over MQTT, so the
+clock on line 2 does not fill Home Assistant's history. The live view needs an admin user;
+other users see line 1 and the LEDs from the entities. The keys send a 4-digit user code plus one action key (Yes, No,
 Part, Area, up, down) as a single request on `<prefix>/keypad/send`. The rules live in
 the app, not in the card:
 
@@ -159,7 +161,8 @@ All topics start with `mqtt_prefix` (`texecom` by default).
 | `cmd/reset/<area>` | in | any |
 | `cmd/sync_clock` | in | any |
 | `keypad/send` | in | `{"code": "1234", "key": "yes"}` (keys: yes, no, part, area, up, down; optional `suite` 1-3 after part) |
-| `keypad/state`, `keypad/result` | out | JSON: display lines and LEDs; result of the last request |
+| `keypad/display` | out | JSON: both display lines and LEDs, on every change (not retained) |
+| `keypad/state`, `keypad/result` | out | JSON: line 1 and LEDs (retained); result of the last request |
 | `cmd/read` | in | `<addr hex> <count> [prog]`: diagnostic memory read, answer on `debug/read` |
 | `cmd/keypress` | in | keys separated by spaces: `0`-`9`, `omit`, `menu`, `yes`, `part`, `no`, `area`, `chime`, `reset`, `up`, `down` |
 

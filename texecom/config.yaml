@@ -1,5 +1,5 @@
 name: Texecom Premier Elite
-version: "0.2.0"
+version: "0.2.1"
 slug: texecom
 description: Bridge for Texecom Premier Elite panels (ComIP/SmartCom) to Home Assistant via MQTT discovery
 url: https://github.com/Basskongen/texecom-hassio
@@ -30,7 +30,7 @@ options:
   zone_config: []
   area_config: []
   keypad_enabled: false
-  keypad_poll_interval: 1
+  keypad_poll_interval: 0.25
   install_card: true
 map:
   - type: homeassistant_config
@@ -66,5 +66,5 @@ schema:
       part_arm_3: list(armed_home|armed_night|armed_vacation|armed_custom_bypass)?
   legacy_prefix: str?
   keypad_enabled: bool
-  keypad_poll_interval: float(0.5,10)
+  keypad_poll_interval: float(0.25,10)
   install_card: bool

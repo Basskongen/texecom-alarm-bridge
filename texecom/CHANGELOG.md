@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.1
+
+- Keypad display is read 4 times a second (like Wintex) while the keypad is enabled.
+- The card gets the live display straight from MQTT, so the per-second clock on line 2
+  is not written to Home Assistant's history. Entities keep line 1 and the LEDs.
+- The "Keypad display" entity replaces the system LCD sensor and shows line 1 only.
+
 ## 0.2.0
 
 - Virtual keypad: a Lovelace card (`texecom-keypad.js`, written to `/config/www` by the
