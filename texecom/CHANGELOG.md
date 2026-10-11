@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.3.4
+
+- Removed the "Last user" and "Engineer on site" sensors.
+- MQTT is removed from the app (it can come back if asked for). Home Assistant gets
+  everything through the Texecom integration. The options `mqtt_*`, `discovery_prefix`,
+  `legacy_prefix` and `allow_keypress` are gone; the Mosquitto app is not needed.
+- Shorter texts about the UDL passcode.
+- Arming and disarming from Home Assistant work: the arm command had its bytes in the
+  wrong order (a full arm was refused, a part arm armed nothing).
+- Entity ids no longer come from names: the alarm panel is
+  `alarm_control_panel.texecom_alarm` (area B `texecom_alarm_b` …) and zones are
+  `binary_sensor.texecom_zone_<n>`, also when taking over from another bridge. An area
+  named "Alarm Sone" can no longer end up as `..._alarm_sone_2`, which reads like zone 2.
+
 ## 0.3.3
 
 - New per area, read from the panel's memory: "ready", "arming" (exit delay running),

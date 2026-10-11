@@ -1,5 +1,5 @@
 name: Texecom Alarm Bridge
-version: "0.3.3"
+version: "0.3.4"
 slug: texecom
 description: Connects Texecom alarm panels (ComIP/SmartCom) to Home Assistant. Independent project, not affiliated with Texecom.
 stage: experimental
@@ -11,8 +11,6 @@ arch:
 init: false
 startup: services
 boot: auto
-services:
-  - mqtt:want
 discovery:
   - texecom
 homeassistant_api: true
@@ -20,13 +18,10 @@ options:
   host: ""
   port: 10001
   udl_code: ""
-  mqtt_prefix: texecom
-  discovery_prefix: homeassistant
   max_zones: 88
   max_areas: 8
   poll_interval: 5
   read_only: false
-  allow_keypress: false
   log_level: info
   part_arm_1: armed_home
   part_arm_2: armed_night
@@ -36,7 +31,6 @@ options:
   keypad_enabled: false
   keypad_poll_interval: 0.25
   install_card: true
-  mqtt_enabled: false
   show_panel_outputs: false
   show_control_timers: false
 map:
@@ -46,17 +40,10 @@ schema:
   host: str
   port: port
   udl_code: password
-  mqtt_host: str?
-  mqtt_port: port?
-  mqtt_username: str?
-  mqtt_password: password?
-  mqtt_prefix: str
-  discovery_prefix: str
   max_zones: int(8,200)
   max_areas: int(1,16)
   poll_interval: int(2,60)
   read_only: bool
-  allow_keypress: bool
   log_level: list(debug|info|warning|error)
   part_arm_1: list(armed_home|armed_night|armed_vacation|armed_custom_bypass)
   part_arm_2: list(armed_home|armed_night|armed_vacation|armed_custom_bypass)
@@ -71,10 +58,8 @@ schema:
       part_arm_1: list(armed_home|armed_night|armed_vacation|armed_custom_bypass)?
       part_arm_2: list(armed_home|armed_night|armed_vacation|armed_custom_bypass)?
       part_arm_3: list(armed_home|armed_night|armed_vacation|armed_custom_bypass)?
-  legacy_prefix: str?
   keypad_enabled: bool
   keypad_poll_interval: float(0.25,10)
   install_card: bool
-  mqtt_enabled: bool
   show_panel_outputs: bool
   show_control_timers: bool

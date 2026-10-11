@@ -8,24 +8,6 @@ configuration:
   udl_code:
     name: UDL code
     description: The panel's UDL (download) passcode, 4 to 6 digits. Used for both protocol logins.
-  mqtt_host:
-    name: MQTT host (optional)
-    description: Leave empty to use the Mosquitto app automatically.
-  mqtt_port:
-    name: MQTT port (optional)
-    description: Only used together with MQTT host.
-  mqtt_username:
-    name: MQTT username (optional)
-    description: Only used together with MQTT host.
-  mqtt_password:
-    name: MQTT password (optional)
-    description: Only used together with MQTT host.
-  mqtt_prefix:
-    name: MQTT topic prefix
-    description: All state and command topics start with this prefix.
-  discovery_prefix:
-    name: Discovery prefix
-    description: Home Assistant MQTT discovery prefix (normally homeassistant).
   max_zones:
     name: Number of zones
     description: Highest zone number to look for. Zones found are remembered, so later starts are quick and new zones are found in the background.
@@ -56,27 +38,18 @@ configuration:
   install_card:
     name: Install the keypad card
     description: Write texecom-keypad.js to Home Assistant's www folder at start-up.
-  mqtt_enabled:
-    name: Also publish to MQTT
-    description: Off by default. Home Assistant gets everything through the Texecom integration. Turn on only if other systems need the panel on MQTT; then anyone with access to the broker can see the panel and send commands.
   show_panel_outputs:
     name: Show panel outputs
     description: Show panel output 1-5 as entities in Home Assistant.
   show_control_timers:
     name: Show control timers
     description: Show control timer 1-8 as entities in Home Assistant.
-  legacy_prefix:
-    name: Prefix of the bridge being replaced
-    description: Leave empty for a new installation. Set it to the MQTT prefix the previous bridge used, and this app reuses its entity ids, device and topics so existing automations keep working.
   poll_interval:
     name: Poll interval
     description: Seconds between reads of voltages, tamper flags, clock and event log.
   read_only:
     name: Read only
     description: Never send anything that changes the panel (no arm, disarm, omit, switches or text).
-  allow_keypress:
-    name: Allow virtual key presses
-    description: Accept key presses on the command topic. Off by default.
   log_level:
     name: Log level
     description: Amount of logging.

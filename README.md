@@ -20,7 +20,7 @@ broker needed.
   and intruder alarm.
 - **Zones**: open/active, tamper and alarm memory for every zone in use, found automatically.
 - **Panel**: panel and battery voltage, system current, battery charging current, battery and
-  mains fault, engineer on site, lid and aux tamper, outputs (digi and panel), control timers, banner text and clock sync.
+  mains fault, lid and aux tamper, outputs (digi and panel), control timers, banner text and clock sync.
 - **Event log**: every new panel event as a Home Assistant event.
 - **Virtual keypad card**: the panel's own display and keys, live in a dashboard.
 - **Secure by design**: the app and the integration talk over a private, token-protected
@@ -49,9 +49,7 @@ broker needed.
 
 ### Change the UDL passcode first
 
-The app logs in with the UDL passcode and can do everything a keypad can. It refuses to
-start with the factory default (1234). Change it on the panel (engineer menu: UDL/Digi
-Options > UDL Options > UDL Password) to a code nobody can guess.
+It refuses to start with the factory default for safety reasons.
 
 ## Configuration
 
@@ -68,7 +66,6 @@ Options > UDL Options > UDL Password) to a code nobody can guess.
 | `keypad_enabled` | off | Let the keypad card send key presses to the panel |
 | `show_panel_outputs`, `show_control_timers` | off | Show panel outputs 1–5 and control timers 1–8 |
 | `read_only` | off | Refuse everything that changes the panel |
-| `mqtt_enabled` | off | Also publish to an MQTT broker (only if other systems need it) |
 
 All options are described in the app's **Documentation** tab.
 

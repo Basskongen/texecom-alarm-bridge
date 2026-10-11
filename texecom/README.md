@@ -15,8 +15,8 @@ panel into Home Assistant. No MQTT broker needed.
 
 **Getting started**
 
-1. Change the panel's UDL passcode from the factory default (1234). The app refuses to
-   start with it, because anyone who knows the UDL passcode can control the panel.
+1. Change the panel's UDL passcode from the factory default. The app refuses to start
+   with it for safety reasons.
 2. Fill in `host` and `udl_code` on the **Configuration** tab and start the app.
 3. Restart Home Assistant when the notification asks for it.
 4. Add **Texecom** under Settings > Devices & services (it is discovered automatically).
