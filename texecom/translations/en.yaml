@@ -59,6 +59,12 @@ configuration:
   install_card:
     name: Install the keypad card
     description: Write texecom-keypad.js to Home Assistant's www folder at start-up.
+  show_panel_outputs:
+    name: Show panel outputs
+    description: Show panel output 1-5 as entities in Home Assistant.
+  show_control_timers:
+    name: Show control timers
+    description: Show control timer 1-8 as entities in Home Assistant.
   legacy_prefix:
     name: Prefix of the bridge being replaced
     description: Leave empty for a new installation. Set it to the MQTT prefix the previous bridge used, and this app reuses its entity ids, device and topics so existing automations keep working.

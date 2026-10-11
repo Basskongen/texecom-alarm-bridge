@@ -34,6 +34,8 @@ options:
   keypad_enabled: false
   keypad_poll_interval: 0.25
   install_card: true
+  show_panel_outputs: false
+  show_control_timers: false
 map:
   - type: homeassistant_config
     read_only: false
@@ -71,3 +73,5 @@ schema:
   keypad_enabled: bool
   keypad_poll_interval: float(0.25,10)
   install_card: bool
+  show_panel_outputs: bool
+  show_control_timers: bool

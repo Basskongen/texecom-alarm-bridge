@@ -12,7 +12,7 @@ discovery. Tested against a Premier Elite 88 V5.06.00 with a ComIP on Com Port 1
 The app opens one TCP connection to the ComIP/SmartCom and logs in twice on it:
 
 - **Connect protocol**: live messages for zones, areas,
-  outputs and users; arm, disarm and reset.
+  outputs and users; arm and disarm.
 - **UDL protocol**: memory reads for voltages, tamper flags, the keypad
   display, the panel clock and the event log. Writes are limited to a short
   whitelist in the code (clock and banner text).
@@ -34,7 +34,8 @@ nobody can guess, and use that code in the app settings.
 2. Install "Texecom Alarm Bridge".
 3. Fill in `host` and `udl_code`. MQTT details are taken from the Mosquitto app
    automatically; set `mqtt_host` only if you run another broker.
-4. Start the app and watch the log. The device "Texecom alarm panel" appears
+4. Start the app and watch the log. The device, named after the
+   panel model (for example "Texecom Premier Elite 88"), appears
    under Settings > Devices & services > MQTT.
 
 ## Options
@@ -57,6 +58,8 @@ nobody can guess, and use that code in the app settings.
 | `keypad_enabled` | false | Pass key presses from the keypad card to the panel |
 | `keypad_poll_interval` | 0.25 | Seconds between display reads while the keypad is enabled |
 | `install_card` | true | Write the keypad card to `/config/www/texecom-keypad.js` at start-up |
+| `show_panel_outputs` | false | Show panel output 1-5 as entities |
+| `show_control_timers` | false | Show control timer 1-8 as entities |
 | `poll_interval` | 5 | Seconds between memory polls |
 | `read_only` | false | Refuse every command that changes the panel |
 | `allow_keypress` | false | Accept virtual key presses on `texecom/cmd/keypress` |
@@ -88,7 +91,8 @@ line 1 and the LEDs from the entities.
 
 Every key on the card (0-9, Yes, No, Part, Area, arrows, Omit, Menu, Chime, Reset) is
 sent to the panel as it is pressed, exactly like the keypad on the wall. The panel's own
-user codes and lockout protect it, as they do on the wall. Nothing is sent while
+user codes and lockout protect it, as they do on the wall. Each press flashes the key and vibrates the phone
+in the Home Assistant app. The keys are laid out like the panel's keypad. Nothing is sent while
 `read_only` is on or `keypad_enabled` is off.
 
 Setup: enable `keypad_enabled` and restart the app. It writes `texecom-keypad.js` to
@@ -98,7 +102,10 @@ Setup: enable `keypad_enabled` and restart the app. It writes `texecom-keypad.js
 type: custom:texecom-keypad-card
 prefix: texecom
 title: Alarm
+haptic: true   # vibrate on key presses in the Home Assistant app
 ```
+
+The card can also be set up in the dashboard's visual editor.
 
 ## Migrating from another MQTT bridge
 
@@ -124,21 +131,24 @@ crashes the legacy status topic may stay `online` until it restarts.
 - **Alarm control panel** per area that has zones. States: disarmed, arming,
   pending, armed_away (full), armed_home (part arm), triggered. Commands: arm
   away (full arm), arm home (part 1), arm night (part 2), arm vacation (part 3),
-  disarm. A reset button per area.
+  disarm.
 - **Binary sensors** per used zone: open/active (device class from the zone type),
   tamper, alarm memory. Zones cannot be omitted from Home Assistant.
-- **Outputs**: panel output 1-5 and digi output 1-8 (from Connect output messages).
-- **Control Timer 1-8** sensors (read only).
+- **Outputs**: digi output 1-8, and panel output 1-5 with `show_panel_outputs`
+  (from Connect output messages).
+- **Control Timer 1-8** sensors (read only), with `show_control_timers`.
+- **Keypad indicators**: armed, alarm, fire and tamper, as the panel signals them to its
+  keypads.
 - **System**: panel and battery voltage (calibrated against the panel's own diagnostics over 11.9 to 13.8 V,
   about 0.03 V error), system current and battery charging current (mA), panel lid tamper,
-  aux tamper, bell/reset activity, panel clock, keypad display text, event log pointer.
-- **Event log**: an event entity (new events only) and a "Last event" sensor whose state is
-  the event type name (for example `AlarmActive`, `BellTamper`) with description, group,
-  parameter, areas and panel time as attributes. The last 10 events are published
+  aux tamper, panel heartbeat, keypad display text.
+- **Event log**: an event entity (new events only) whose event type is the event name
+  (for example `AlarmActive`, `BellTamper`) with description, group, parameter, areas and
+  panel time as attributes. The latest event is also published retained on `log/last`. The last 10 events are published
   retained on `log/history` at start-up, so a restart never replays them as events.
 - **Last user** sensor from Connect user messages (user number and method).
-- **Text**: banner (16 characters, written to the panel's programming memory) and
-  display message (32 characters via SetLCDDisplay).
+- **Text**: banner (16 characters, written to the panel's programming memory). A
+  temporary display message (32 characters) can be sent on the `lcd/set` topic.
 - **Button**: sync the panel clock to the app's clock.
 
 ## MQTT topics
@@ -154,23 +164,24 @@ All topics start with `mqtt_prefix` (`texecom` by default).
 | `output/panel/<n>/state`, `output/digi/<n>/state` | out | `ON` / `OFF` |
 | `control_timer/<n>/state` | out | `ON` / `OFF` |
 | `system/state` | out | JSON |
+| `heartbeat/state` | out | JSON: `running`, `period` (seconds per blink) |
 | `log/event` | out | JSON per new event (not retained) |
 | `log/last`, `log/history` | out | Latest event / last 10 events at start-up (retained) |
 | `user/last` | out | JSON |
 | `banner/state`, `banner/set` | out / in | text |
 | `lcd/state`, `lcd/set` | out / in | text |
-| `cmd/reset/<area>` | in | any |
 | `cmd/sync_clock` | in | any |
 | `keypad/key` | in | one key: `0`-`9`, `yes`, `no`, `part`, `area`, `up`, `down`, `omit`, `menu`, `chime`, `reset` |
 | `keypad/display` | out | JSON: both display lines and LEDs, on every change (not retained) |
-| `keypad/state`, `keypad/result` | out | JSON: line 1 and LEDs (retained); errors from key presses |
+| `keypad/state` | out | JSON: line 1 and LEDs (retained) |
+| `keypad/result` | out | JSON: errors from key presses, shown on the card (not retained) |
 | `cmd/read` | in | `<addr hex> <count> [prog]`: diagnostic memory read, only with `log_level: debug` |
 | `cmd/keypress` | in | keys separated by spaces: `0`-`9`, `omit`, `menu`, `yes`, `part`, `no`, `area`, `chime`, `reset`, `up`, `down` |
 
 ## Safety
 
-- Zones cannot be omitted from Home Assistant. Omitting is only possible from a keypad,
-  the wall keypad or the keypad card, with a user code.
+- Zones cannot be omitted and alarms cannot be reset from Home Assistant. Both are only
+  possible from a keypad, the wall keypad or the keypad card, with a user code.
 - Key presses and the UDL passcode are never written to the log, not even at debug level.
   At `info` the log only shows events in plain words.
 - Key presses from the keypad card travel over MQTT on `<prefix>/keypad/key`. Anyone who

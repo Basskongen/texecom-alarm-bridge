@@ -5,6 +5,27 @@
 - Texts and documentation no longer name other programs.
 - New optional setting `zones` (e.g. `1-5, 74`): read only these zones instead of
   searching through all of them at start-up.
+- Keypad card: feedback on key presses (the key flashes and the phone vibrates in the
+  Home Assistant app).
+- Keypad card: keys laid out like the panel's keypad, all texts in English.
+- The device is named after the panel model it reports, for example "Texecom Premier
+  Elite 88" (was "Texecom alarm panel"). "Texecom alarm" if the panel does not say.
+- The area reset button is removed for security: it reset alarms without a user code.
+  Reset from a keypad or the keypad card with a code.
+- "Bell / reset activity" is replaced by "Panel heartbeat". The bit it read blinks (most
+  likely the heartbeat LED on the panel board); it is now read 4 times a second and the
+  sensor shows whether it blinks, with the blink time as an attribute.
+- Panel output 1-5 and Control timer 1-8 are hidden unless `show_panel_outputs` /
+  `show_control_timers` is turned on.
+- Removed the "Panel clock" and "Event log pointer" sensors.
+- Keypad LED entities: "power" and "ready" are removed (the keypad card still shows
+  them). "armed", "alarm", "fire" and "tamper" are now "Keypad ... indicator" with new
+  entity ids (`binary_sensor.texecom_keypad_armed_indicator` and so on).
+- The "Display message" entity is removed; the `lcd/set` topic still works.
+- The "Last event" sensor is switched off for now; the "Panel event" entity remains.
+- Keypad card: `haptic` setting (on by default) and support for the visual card editor.
+- Keypad card: errors are shown straight from MQTT and clear after 5 seconds. The
+  "Keypad result" sensor is removed.
 
 ## 0.2.3
 
