@@ -79,9 +79,18 @@ Settings > Devices & services > Texecom > Configure:
 
 | Option | Default | Description |
 |--------|---------|-------------|
-| Code for disarming in Home Assistant | empty | Asked for when an area is disarmed from Home Assistant. A Home Assistant code, not a panel user code. Empty = no code |
-| Also ask for the code when arming | off | Only used when a code is set |
+| Ask for a code when disarming | off | A user's code is needed to disarm from Home Assistant |
+| Ask for a code when arming | off | A user's code is needed to arm from Home Assistant |
 | Let all users use the keypad card | off | Off: only administrators can use the keypad card |
+
+### Users and codes
+
+Each person can have their own code for Home Assistant (not a panel user code).
+User 1 is created when the integration is set up, with or without a code. Add more
+users with **Add user** on the integration's page, and change a name or code with the
+user's ⋮ > **Reconfigure**. Codes are stored only as a one-way hash in the integration's
+own storage file, never as text. The alarm panel shows who armed or disarmed it
+("Changed by").
 
 ## Entities
 

@@ -73,7 +73,9 @@ All options are described in the app's **Documentation** tab.
 
 **Settings > Devices & services > Texecom > Configure**:
 
-- **Code for disarming in Home Assistant** (optional), and whether to ask for it when arming too.
+- **Ask for a code when disarming** and **when arming** (each optional).
+- **Users**: each person their own code (user 1 is created at setup). Codes are stored
+  only as a one-way hash. The alarm panel shows who armed or disarmed it.
 - **Let all users use the keypad card** (off: administrators only).
 
 ### Keypad card

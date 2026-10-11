@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.3.5
+
+- Users with their own codes for arming and disarming from Home Assistant. User 1 is
+  created when the integration is set up (also for existing installations), with or
+  without a code; add, rename and change codes on the integration's page.
+- Two options: ask for a code when disarming, and when arming.
+- Codes are stored only as a salted one-way hash in the integration's own storage file,
+  never as text. The single code from 0.3.0-0.3.4 (stored as text) is removed.
+- The alarm panel shows who armed or disarmed it.
+- The "Discovered" card shows the panel model instead of the app's name twice.
+
 ## 0.3.4
 
 - Removed the "Last user" and "Engineer on site" sensors.
