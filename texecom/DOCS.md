@@ -11,13 +11,13 @@ discovery. Tested against a Premier Elite 88 V5.06.00 with a ComIP on Com Port 1
 
 The app opens one TCP connection to the ComIP/SmartCom and logs in twice on it:
 
-- **Connect protocol** (what texecom2mqtt uses): live messages for zones, areas,
+- **Connect protocol**: live messages for zones, areas,
   outputs and users; arm, disarm and reset.
-- **Wintex/UDL protocol**: memory reads for voltages, tamper flags, the keypad
+- **UDL protocol**: memory reads for voltages, tamper flags, the keypad
   display, the panel clock and the event log. Writes are limited to a short
   whitelist in the code (clock and banner text).
 
-Only one client can be connected to the panel. Stop texecom2mqtt and close Wintex
+Only one client can be connected to the panel. Stop any other program that uses the connection
 before starting the app. After a dropped connection the panel refuses new
 connections for about a minute; the app waits and retries automatically.
 
@@ -48,13 +48,14 @@ nobody can guess, and use that code in the app settings.
 | `mqtt_prefix` | `texecom` | Topic prefix for state and command topics |
 | `discovery_prefix` | `homeassistant` | MQTT discovery prefix |
 | `max_zones` | 88 | Highest zone number to read at start-up |
+| `zones` | | Optional list of zones to read, e.g. `1-5, 74`. Skips searching through all zones and makes start-up faster |
 | `max_areas` | 8 | Number of areas to read at start-up |
 | `part_arm_1`, `part_arm_2`, `part_arm_3` | armed_home, armed_night, armed_vacation | Which Home Assistant arm state each part arm uses |
 | `zone_config` | [] | Per-zone overrides: `number`, `name`, `device_class` |
 | `area_config` | [] | Per-area overrides: `number`, `name`, `part_arm_1..3` |
 | `legacy_prefix` | | MQTT prefix of the bridge this app replaces (see Migrating) |
 | `keypad_enabled` | false | Pass key presses from the keypad card to the panel |
-| `keypad_poll_interval` | 0.25 | Seconds between display reads while the keypad is enabled (Wintex uses 0.25) |
+| `keypad_poll_interval` | 0.25 | Seconds between display reads while the keypad is enabled |
 | `install_card` | true | Write the keypad card to `/config/www/texecom-keypad.js` at start-up |
 | `poll_interval` | 5 | Seconds between memory polls |
 | `read_only` | false | Refuse every command that changes the panel |
@@ -128,7 +129,7 @@ crashes the legacy status topic may stay `online` until it restarts.
   tamper, alarm memory. Zones cannot be omitted from Home Assistant.
 - **Outputs**: panel output 1-5 and digi output 1-8 (from Connect output messages).
 - **Control Timer 1-8** sensors (read only).
-- **System**: panel and battery voltage (calibrated against Wintex over 11.9 to 13.8 V,
+- **System**: panel and battery voltage (calibrated against the panel's own diagnostics over 11.9 to 13.8 V,
   about 0.03 V error), system current and battery charging current (mA), panel lid tamper,
   aux tamper, bell/reset activity, panel clock, keypad display text, event log pointer.
 - **Event log**: an event entity (new events only) and a "Last event" sensor whose state is

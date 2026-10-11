@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.4
+
+- Texts and documentation no longer name other programs.
+- New optional setting `zones` (e.g. `1-5, 74`): read only these zones instead of
+  searching through all of them at start-up.
+
 ## 0.2.3
 
 - The app registers the keypad card as a dashboard resource itself, with its version in
@@ -26,7 +32,7 @@
 
 ## 0.2.1
 
-- Keypad display is read 4 times a second (like Wintex) while the keypad is enabled.
+- Keypad display is read 4 times a second while the keypad is enabled.
 - The card gets the live display straight from MQTT, so the per-second clock on line 2
   is not written to Home Assistant's history. Entities keep line 1 and the LEDs.
 - The "Keypad display" entity replaces the system LCD sensor and shows line 1 only.

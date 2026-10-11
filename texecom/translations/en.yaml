@@ -29,6 +29,9 @@ configuration:
   max_zones:
     name: Number of zones
     description: Highest zone number to read from the panel at start-up.
+  zones:
+    name: Zones to read (optional)
+    description: List the zones you use, e.g. 1-5, 74. The app then reads only these and skips searching through all zones at start-up. Leave empty to search 1 to the number of zones.
   max_areas:
     name: Number of areas
     description: Number of areas to read from the panel at start-up.
@@ -52,7 +55,7 @@ configuration:
     description: Pass every key press from the keypad card to the panel, like the wall keypad.
   keypad_poll_interval:
     name: Keypad display refresh (seconds)
-    description: Seconds between reads of the keypad display and LEDs while the virtual keypad is enabled. 0.25 = 4 times a second, like Wintex.
+    description: Seconds between reads of the keypad display and LEDs while the virtual keypad is enabled. 0.25 = 4 times a second.
   install_card:
     name: Install the keypad card
     description: Write texecom-keypad.js to Home Assistant's www folder at start-up.
