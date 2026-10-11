@@ -11,7 +11,7 @@ panel into Home Assistant. No MQTT broker needed.
 - Every zone in use: open/active, tamper and alarm memory
 - Voltages, currents, battery and mains fault, tamper, outputs, event log, banner text
   and clock sync
-- A virtual keypad card with the panel's own display and keys
+- A keypad card with the panel's own display and keys
 
 **Getting started**
 

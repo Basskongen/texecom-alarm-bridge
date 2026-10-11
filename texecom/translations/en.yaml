@@ -7,10 +7,10 @@ configuration:
     description: TCP port of the ComIP / SmartCom module (normally 10001).
   udl_code:
     name: UDL code
-    description: The panel's UDL (download) passcode, 4 to 6 digits. Used for both protocol logins.
+    description: The panel's UDL passcode, 4 to 6 digits.
   max_zones:
     name: Number of zones
-    description: Highest zone number to look for. Zones found are remembered, so later starts are quick and new zones are found in the background.
+    description: Highest zone number to look for.
   max_areas:
     name: Number of areas
     description: Number of areas to read from the panel at start-up.
@@ -30,14 +30,11 @@ configuration:
     name: Area overrides
     description: Optional per-area name and part-arm mapping.
   keypad_enabled:
-    name: Virtual keypad
-    description: Pass every key press from the keypad card to the panel, like the wall keypad.
+    name: Keypad
+    description: Let the keypad card operate the panel.
   keypad_poll_interval:
     name: Keypad display refresh (seconds)
-    description: Seconds between reads of the keypad display and LEDs while the virtual keypad is enabled.
-  install_card:
-    name: Install the keypad card
-    description: Write texecom-keypad.js to Home Assistant's www folder at start-up.
+    description: How often the keypad display is read while the keypad is on.
   show_panel_outputs:
     name: Show panel outputs
     description: Show panel output 1-5 as entities in Home Assistant.
@@ -49,7 +46,7 @@ configuration:
     description: Seconds between reads of voltages, tamper flags, clock and event log.
   read_only:
     name: Read only
-    description: Never send anything that changes the panel (no arm, disarm, omit, switches or text).
+    description: Never send anything that changes the panel (no arm, disarm or text).
   log_level:
     name: Log level
     description: Amount of logging.

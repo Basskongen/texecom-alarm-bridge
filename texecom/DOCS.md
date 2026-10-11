@@ -47,9 +47,8 @@ removed zones in the background.
 | `part_arm_1`, `part_arm_2`, `part_arm_3` | armed_home, armed_night, armed_vacation | Which Home Assistant arm mode each part arm uses |
 | `zone_config` | [] | Per zone: `number`, `name`, `device_class` |
 | `area_config` | [] | Per area: `number`, `name`, `part_arm_1..3` |
-| `keypad_enabled` | false | Let the keypad card send key presses to the panel |
+| `keypad_enabled` | false | Let the keypad card operate the panel; installs the card |
 | `keypad_poll_interval` | 0.25 | Seconds between display reads while the keypad is enabled |
-| `install_card` | true | Install the keypad card and register it as a dashboard resource |
 | `show_panel_outputs` | false | Show panel output 1-5 |
 | `show_control_timers` | false | Show control timer 1-8 |
 | `poll_interval` | 5 | Seconds between status reads |
@@ -72,7 +71,8 @@ area_config:
 
 ## Integration options
 
-Settings > Devices & services > Texecom > Configure:
+Settings > Devices & services > Texecom > Configure has **Settings**, **Add user**,
+**Change user** and **Remove user**. Settings:
 
 | Option | Default | Description |
 |--------|---------|-------------|
@@ -83,8 +83,12 @@ Settings > Devices & services > Texecom > Configure:
 ### Users and codes
 
 Each person can have their own Home Assistant code (not a panel user code). User 1 is
-created at setup; add more with **Add user** and edit with ⋮ > **Reconfigure**. Codes
-are stored only as a one-way hash. The alarm panel shows who armed or disarmed it.
+created at setup. Codes are stored only as a one-way hash. The alarm panel shows who armed or disarmed it.
+
+## Updates
+
+Updating the app also updates the integration. Settings > Updates then shows
+**Texecom integration**; **Install** restarts Home Assistant to load it.
 
 ## Entities
 
@@ -107,7 +111,7 @@ Entity ids are fixed and never taken from names: the alarm panel for area A is
 - **Panel event**: an event entity for every new entry in the panel's event log.
 - **Banner text** (16 characters) and a **Sync panel clock** button.
 
-## Virtual keypad
+## Keypad card
 
 The card shows the panel's display and lamps live and sends each key to the panel as it
 is pressed. Only administrators can use it unless the integration option allows all
@@ -120,6 +124,7 @@ type: custom:texecom-keypad-card
 title: Alarm
 haptic: true      # vibrate on key presses in the Home Assistant app
 all_keys: false   # also show the Omit, Chime, Part and Area keys
+style: nexus      # nexus or classic
 ```
 
 ## Safety

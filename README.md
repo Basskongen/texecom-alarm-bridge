@@ -1,10 +1,9 @@
-<img src="texecom/icon.png" alt="" width="96" align="right">
 
 # Texecom Alarm Bridge for Home Assistant
 
 Connects a Texecom Premier Elite alarm panel to Home Assistant through the panel's
 ComIP or SmartCom module. The app talks to the panel; its own integration brings the
-panel into Home Assistant with alarm panels, sensors and a virtual keypad. No MQTT
+panel into Home Assistant with alarm panels, sensors and a keypad card. No MQTT
 broker needed.
 
 [![Add repository to Home Assistant](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2FBasskongen%2Ftexecom-hassio)
@@ -22,7 +21,7 @@ broker needed.
 - **Panel**: panel and battery voltage, system current, battery charging current, battery and
   mains fault, lid and aux tamper, outputs (digi and panel), control timers, banner text and clock sync.
 - **Event log**: every new panel event as a Home Assistant event.
-- **Virtual keypad card**: the panel's own display and keys, live in a dashboard.
+- **Keypad card**: the panel's own display and keys, live in a dashboard.
 - **Secure by design**: the app and the integration talk over a private, token-protected
   connection inside Home Assistant. Zones cannot be omitted and alarms cannot be reset
   from Home Assistant.
@@ -63,7 +62,7 @@ It refuses to start with the factory default for safety reasons.
 | `max_areas` | 8 | Number of areas to read |
 | `part_arm_1` … `part_arm_3` | home, night, vacation | Which Home Assistant arm mode each part arm uses |
 | `zone_config`, `area_config` | – | Own names and device classes for zones, names and part-arm modes for areas |
-| `keypad_enabled` | off | Let the keypad card send key presses to the panel |
+| `keypad_enabled` | off | Let the keypad card operate the panel |
 | `show_panel_outputs`, `show_control_timers` | off | Show panel outputs 1–5 and control timers 1–8 |
 | `read_only` | off | Refuse everything that changes the panel |
 
@@ -88,6 +87,7 @@ type: custom:texecom-keypad-card
 title: Alarm
 haptic: true     # vibrate on key presses in the Home Assistant app
 all_keys: false  # also show the Omit, Chime, Part and Area keys
+style: nexus     # nexus or classic
 ```
 
 ## Support
