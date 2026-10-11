@@ -1,5 +1,5 @@
 name: Texecom Alarm Bridge
-version: "0.3.1"
+version: "0.3.2"
 slug: texecom
 description: Connects Texecom alarm panels (ComIP/SmartCom) to Home Assistant. Independent project, not affiliated with Texecom.
 stage: experimental

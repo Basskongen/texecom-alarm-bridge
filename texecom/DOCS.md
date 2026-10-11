@@ -164,8 +164,9 @@ crashes the legacy status topic may stay `online` until it restarts.
   disarm.
 - **Binary sensors** per used zone: open/active (device class from the zone type),
   tamper, alarm memory. Zones cannot be omitted from Home Assistant.
-- **Outputs**: digi output 1-8, and panel output 1-5 with `show_panel_outputs`
-  (from Connect output messages).
+- **Outputs**: digi output 1-8, and panel output 1-5 with `show_panel_outputs`, as the
+  outputs really are (inverted outputs included). Read from the panel's memory at start-up
+  and every poll, and updated at once from the panel's output messages.
 - **Control Timer 1-8** sensors (read only), with `show_control_timers`.
 - **Keypad indicators**: armed, alarm, fire and tamper, as the panel signals them to its
   keypads.

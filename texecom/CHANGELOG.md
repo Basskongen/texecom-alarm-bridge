@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.2
+
+- Digi outputs, panel outputs and control timers are read from the panel's memory at
+  start-up and every poll, so they are never "unknown" and inverted outputs show their
+  real state.
+
 ## 0.3.1
 
 - The integration is shown as "Texecom" (not "texecom") and has its own icon. The app uses
