@@ -1,6 +1,10 @@
-# Texecom Premier Elite
+# Texecom Alarm Bridge
 
-Bridges a Texecom Premier Elite panel to Home Assistant over MQTT with automatic
+This is an independent project. It is not made, endorsed or supported by Texecom.
+Texecom and Premier Elite are trademarks of their owner and are used here only to
+say which alarm panels the app works with.
+
+Bridges a Texecom alarm panel of the Premier Elite series to Home Assistant over MQTT with automatic
 discovery. Tested against a Premier Elite 88 V5.06.00 with a ComIP on Com Port 1.
 
 ## How it works
@@ -8,22 +12,29 @@ discovery. Tested against a Premier Elite 88 V5.06.00 with a ComIP on Com Port 1
 The app opens one TCP connection to the ComIP/SmartCom and logs in twice on it:
 
 - **Connect protocol** (what texecom2mqtt uses): live messages for zones, areas,
-  outputs and users; arm, disarm, reset and omit.
+  outputs and users; arm, disarm and reset.
 - **Wintex/UDL protocol**: memory reads for voltages, tamper flags, the keypad
-  display, the panel clock, PC Control and the event log. Writes are limited to a
-  short whitelist in the code (PC Control byte, clock, banner text).
+  display, the panel clock and the event log. Writes are limited to a short
+  whitelist in the code (clock and banner text).
 
 Only one client can be connected to the panel. Stop texecom2mqtt and close Wintex
 before starting the app. After a dropped connection the panel refuses new
 connections for about a minute; the app waits and retries automatically.
 
+## Before you start: change the UDL passcode
+
+The app logs in with the panel's UDL passcode and can do everything the keypad can.
+**It refuses to start with the factory default UDL passcode (1234).** Change it on the
+panel first (engineer menu: UDL/Digi Options > UDL Options > UDL Password) to a code
+nobody can guess, and use that code in the app settings.
+
 ## Installation
 
 1. Add this repository in Settings > Apps > App store > three dots > Repositories.
-2. Install "Texecom Premier Elite".
+2. Install "Texecom Alarm Bridge".
 3. Fill in `host` and `udl_code`. MQTT details are taken from the Mosquitto app
    automatically; set `mqtt_host` only if you run another broker.
-4. Start the app and watch the log. The device "Texecom Premier Elite" appears
+4. Start the app and watch the log. The device "Texecom alarm panel" appears
    under Settings > Devices & services > MQTT.
 
 ## Options
@@ -42,7 +53,7 @@ connections for about a minute; the app waits and retries automatically.
 | `zone_config` | [] | Per-zone overrides: `number`, `name`, `device_class` |
 | `area_config` | [] | Per-area overrides: `number`, `name`, `part_arm_1..3` |
 | `legacy_prefix` | | MQTT prefix of the bridge this app replaces (see Migrating) |
-| `keypad_enabled` | false | Accept requests from the keypad card |
+| `keypad_enabled` | false | Pass key presses from the keypad card to the panel |
 | `keypad_poll_interval` | 0.25 | Seconds between display reads while the keypad is enabled (Wintex uses 0.25) |
 | `install_card` | true | Write the keypad card to `/config/www/texecom-keypad.js` at start-up |
 | `poll_interval` | 5 | Seconds between memory polls |
@@ -69,33 +80,24 @@ area_config:
 
 ## Virtual keypad
 
-The card looks like the panel's keypad: the 2x16 display and the LEDs are read from the
-panel 4 times a second (as Wintex does) and sent straight to the card over MQTT, so the
-clock on line 2 does not fill Home Assistant's history. The live view needs an admin user;
-other users see line 1 and the LEDs from the entities. The keys send a 4-digit user code plus one action key (Yes, No,
-Part, Area, up, down) as a single request on `<prefix>/keypad/send`. The rules live in
-the app, not in the card:
+The card works like the panel's own keypad. The 2x16 display and the LEDs are read
+4 times a second and sent straight to the card over MQTT, so the clock on line 2 does
+not fill Home Assistant's history. The live view needs an admin user; other users see
+line 1 and the LEDs from the entities.
 
-- exactly 4 digits, so the 6-digit Master and Install codes cannot be used;
-- Menu, Reset and Omit are never sent;
-- the app sends No, No first, then the code, reads the display and only sends the
-  action key when it shows "Kode Akseptert" / "Code Accepted" with a user name that is
-  not Master or Install (otherwise it sends No and reports why);
-- at most 3 attempts per minute, in addition to the panel's own lockout;
-- nothing is sent while `read_only` is on or `keypad_enabled` is off.
+Every key on the card (0-9, Yes, No, Part, Area, arrows, Omit, Menu, Chime, Reset) is
+sent to the panel as it is pressed, exactly like the keypad on the wall. The panel's own
+user codes and lockout protect it, as they do on the wall. Nothing is sent while
+`read_only` is on or `keypad_enabled` is off.
 
-Setup: enable `keypad_enabled`, restart the app (it writes `texecom-keypad.js` to
-`/config/www`), add `/local/texecom-keypad.js` as a dashboard resource (Settings >
-Dashboards > three dots > Resources, type "JavaScript module"), then add the card:
+Setup: enable `keypad_enabled` and restart the app. It writes `texecom-keypad.js` to
+`/config/www`. Add the card to a dashboard:
 
 ```yaml
 type: custom:texecom-keypad-card
 prefix: texecom
 title: Alarm
 ```
-
-Results are published on `<prefix>/keypad/result` and shown as the "Keypad result"
-sensor. The card needs a logged-in Home Assistant user like any other card.
 
 ## Migrating from another MQTT bridge
 
@@ -123,9 +125,9 @@ crashes the legacy status topic may stay `online` until it restarts.
   away (full arm), arm home (part 1), arm night (part 2), arm vacation (part 3),
   disarm. A reset button per area.
 - **Binary sensors** per used zone: open/active (device class from the zone type),
-  tamper, alarm memory. A switch per zone for omit.
+  tamper, alarm memory. Zones cannot be omitted from Home Assistant.
 - **Outputs**: panel output 1-5 and digi output 1-8 (from Connect output messages).
-- **PC Control 1-8** switches (names from the panel) and **Control Timer 1-8** sensors.
+- **Control Timer 1-8** sensors (read only).
 - **System**: panel and battery voltage (calibrated against Wintex over 11.9 to 13.8 V,
   about 0.03 V error), system current and battery charging current (mA), panel lid tamper,
   aux tamper, bell/reset activity, panel clock, keypad display text, event log pointer.
@@ -148,9 +150,7 @@ All topics start with `mqtt_prefix` (`texecom` by default).
 | `area/<n>/state`, `area/<n>/attributes` | out | HA alarm state, JSON |
 | `area/<n>/set` | in | `ARM_AWAY`, `ARM_HOME`, `ARM_NIGHT`, `ARM_VACATION`, `ARM_CUSTOM_BYPASS`, `DISARM` |
 | `zone/<n>/state` | out | JSON: state, active, tamper, fault, alarmed, bypassed, text, areas |
-| `zone/<n>/omit/set` | in | `ON` / `OFF` |
 | `output/panel/<n>/state`, `output/digi/<n>/state` | out | `ON` / `OFF` |
-| `pc_control/<n>/state`, `pc_control/<n>/set` | out / in | `ON` / `OFF` |
 | `control_timer/<n>/state` | out | `ON` / `OFF` |
 | `system/state` | out | JSON |
 | `log/event` | out | JSON per new event (not retained) |
@@ -160,13 +160,22 @@ All topics start with `mqtt_prefix` (`texecom` by default).
 | `lcd/state`, `lcd/set` | out / in | text |
 | `cmd/reset/<area>` | in | any |
 | `cmd/sync_clock` | in | any |
-| `keypad/send` | in | `{"code": "1234", "key": "yes"}` (keys: yes, no, part, area, up, down; optional `suite` 1-3 after part) |
+| `keypad/key` | in | one key: `0`-`9`, `yes`, `no`, `part`, `area`, `up`, `down`, `omit`, `menu`, `chime`, `reset` |
 | `keypad/display` | out | JSON: both display lines and LEDs, on every change (not retained) |
-| `keypad/state`, `keypad/result` | out | JSON: line 1 and LEDs (retained); result of the last request |
-| `cmd/read` | in | `<addr hex> <count> [prog]`: diagnostic memory read, answer on `debug/read` |
+| `keypad/state`, `keypad/result` | out | JSON: line 1 and LEDs (retained); errors from key presses |
+| `cmd/read` | in | `<addr hex> <count> [prog]`: diagnostic memory read, only with `log_level: debug` |
 | `cmd/keypress` | in | keys separated by spaces: `0`-`9`, `omit`, `menu`, `yes`, `part`, `no`, `area`, `chime`, `reset`, `up`, `down` |
 
 ## Safety
+
+- Zones cannot be omitted from Home Assistant. Omitting is only possible from a keypad,
+  the wall keypad or the keypad card, with a user code.
+- Key presses and the UDL passcode are never written to the log, not even at debug level.
+  At `info` the log only shows events in plain words.
+- Key presses from the keypad card travel over MQTT on `<prefix>/keypad/key`. Anyone who
+  can read that topic on the broker can see them. Restrict the broker so only Home
+  Assistant and this app can use the `texecom/#` topics (Mosquitto app: `customize` with
+  an ACL file), and keep `keypad_enabled` off if you do not need the card.
 
 - The UDL code is stored with the `password` schema type (masked in the UI). Home
   Assistant checks such values against the Have I Been Pwned list, and short numeric

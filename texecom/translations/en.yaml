@@ -49,7 +49,7 @@ configuration:
     description: Optional per-area name and part-arm mapping.
   keypad_enabled:
     name: Virtual keypad
-    description: Accept code + action key from the keypad card. The app refuses engineer/master codes, menu, reset and omit, and allows 3 attempts per minute.
+    description: Pass every key press from the keypad card to the panel, like the wall keypad.
   keypad_poll_interval:
     name: Keypad display refresh (seconds)
     description: Seconds between reads of the keypad display and LEDs while the virtual keypad is enabled. 0.25 = 4 times a second, like Wintex.

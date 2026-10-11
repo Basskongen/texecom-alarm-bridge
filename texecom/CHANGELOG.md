@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.2.2
+
+- Voltages are shown with two decimals (13.72 V instead of 14 V).
+- The keypad card sends every key as it is pressed, like the wall keypad, with all keys
+  (including Omit, Menu, Chime and Reset). The code + one key request is gone.
+- The app refuses to start with the factory default UDL passcode.
+- Zone omit switches removed: zones can no longer be omitted from Home Assistant.
+- PC Control switches removed: Home Assistant can no longer drive panel outputs.
+- Zone tamper sensors are only created for zones wired with end-of-line resistors;
+  normally closed zones (no tamper state) no longer get one.
+- Key presses are never logged, not even at debug level. Diagnostic memory reads only
+  work with `log_level: debug`.
+- Sensors that earlier versions created and this one no longer does (the old LCD
+  sensor) are removed from Home Assistant automatically.
+- Renamed to Texecom Alarm Bridge and marked experimental. Independent project, not affiliated
+  with Texecom; the device in Home Assistant is now called "Texecom alarm panel"
+  unless the legacy mode keeps the old device.
+
 ## 0.2.1
 
 - Keypad display is read 4 times a second (like Wintex) while the keypad is enabled.

@@ -1,7 +1,8 @@
-name: Texecom Premier Elite
-version: "0.2.1"
+name: Texecom Alarm Bridge
+version: "0.2.2"
 slug: texecom
-description: Bridge for Texecom Premier Elite panels (ComIP/SmartCom) to Home Assistant via MQTT discovery
+description: Connects Texecom alarm panels (ComIP/SmartCom) to Home Assistant via MQTT. Independent project, not affiliated with Texecom.
+stage: experimental
 url: https://github.com/Basskongen/texecom-hassio
 image: ghcr.io/basskongen/texecom
 arch:
