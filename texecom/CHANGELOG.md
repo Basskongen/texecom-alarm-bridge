@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.3.3
+
+- New per area, read from the panel's memory: "ready", "arming" (exit delay running),
+  "entry delay", "armed", "arm mode" (Disarmed, Full, Part 1, Part 2, Part 3), "fire alarm"
+  and "intruder alarm".
+- New: "Battery fault", "Mains fault" and "Engineer on site" from the panel's system status.
+- More accurate voltage and current formulas (new calibration with 12 points).
+- "Panel heartbeat" is removed: the bit it read is a fast hardware signal, not the
+  heartbeat LED. The warnings it wrote to the log are gone too.
+- The app only asks for a Home Assistant restart when the integration itself changed,
+  not when only its version number did.
+
 ## 0.3.2
 
 - Digi outputs, panel outputs and control timers are read from the panel's memory at

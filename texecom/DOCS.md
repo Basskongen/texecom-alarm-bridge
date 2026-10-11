@@ -162,6 +162,9 @@ crashes the legacy status topic may stay `online` until it restarts.
   pending, armed_away (full), armed_home (part arm), triggered. Commands: arm
   away (full arm), arm home (part 1), arm night (part 2), arm vacation (part 3),
   disarm.
+- **Per area, read from the panel's memory**: *ready* (all zones closed, can be armed),
+  *arming* (exit delay running), *entry delay*, *armed*, *arm mode* (Disarmed, Full,
+  Part 1, Part 2, Part 3), *fire alarm* and *intruder alarm*.
 - **Binary sensors** per used zone: open/active (device class from the zone type),
   tamper, alarm memory. Zones cannot be omitted from Home Assistant.
 - **Outputs**: digi output 1-8, and panel output 1-5 with `show_panel_outputs`, as the
@@ -170,9 +173,10 @@ crashes the legacy status topic may stay `online` until it restarts.
 - **Control Timer 1-8** sensors (read only), with `show_control_timers`.
 - **Keypad indicators**: armed, alarm, fire and tamper, as the panel signals them to its
   keypads.
-- **System**: panel and battery voltage (calibrated against the panel's own diagnostics over 11.9 to 13.8 V,
-  about 0.03 V error), system current and battery charging current (mA), panel lid tamper,
-  aux tamper, panel heartbeat, keypad display text.
+- **System**: panel and battery voltage (calibrated against the panel's own diagnostics over 11.9 to 13.8 V:
+  within 0.03 V for the panel and 0.06 V for the battery), system current and battery charging current (mA), panel lid tamper,
+  aux tamper, battery fault, mains fault (reported after the panel's mains fail delay;
+  the event log shows "AC Fail" much sooner), engineer on site, keypad display text.
 - **Event log**: an event entity (new events only) whose event type is the event name
   (for example `AlarmActive`, `BellTamper`) with description, group, parameter, areas and
   panel time as attributes. The latest event is also published retained on `log/last`. The last 10 events are published
@@ -199,7 +203,7 @@ broker (Mosquitto app: `customize` with an ACL file). All topics start with `mqt
 | `output/panel/<n>/state`, `output/digi/<n>/state` | out | `ON` / `OFF` |
 | `control_timer/<n>/state` | out | `ON` / `OFF` |
 | `system/state` | out | JSON |
-| `heartbeat/state` | out | JSON: `running`, `period` (seconds per blink) |
+| `area/<n>/flags` | out | JSON: `arming`, `armed`, `mode`, `entry`, `ready`, `alarm`, `fire_alarm`, `intruder_alarm` |
 | `log/event` | out | JSON per new event (not retained) |
 | `log/last`, `log/history` | out | Latest event / last 10 events at start-up (retained) |
 | `user/last` | out | JSON |

@@ -1,20 +1,30 @@
 # Texecom Alarm Bridge
 
-Connects a Texecom alarm panel of the Premier Elite series (via ComIP or SmartCom) to Home Assistant
-through its own integration, which the app installs. No MQTT broker needed.
+Connects a Texecom Premier Elite alarm panel (via ComIP or SmartCom) to Home Assistant.
+The app talks to the panel and installs its own Texecom integration, which brings the
+panel into Home Assistant. No MQTT broker needed.
 
-Areas appear as alarm panels, zones as binary sensors, plus outputs,
-panel and battery voltage, tamper flags, LCD text and the event log.
+**What you get**
 
-Uses both the Connect protocol (live events, arm/disarm) and the UDL
-protocol (memory reads) on a single TCP connection. Only one client can talk to
-the panel at a time: stop any other program that uses the panel's
-ComIP/SmartCom connection before starting this app.
+- An alarm panel per area: full and part arm, disarm (optional code in Home Assistant)
+- Area status: ready, arming, entry delay, armed, arm mode, fire alarm, intruder alarm
+- Every zone in use: open/active, tamper and alarm memory
+- Voltages, currents, battery and mains fault, tamper, outputs, event log, banner text
+  and clock sync
+- A virtual keypad card with the panel's own display and keys
 
-**Experimental.** Test it with `read_only: true` first.
+**Getting started**
 
-**Change the panel's UDL passcode before installing.** The app refuses to start with
-the factory default (1234), because anyone who knows the UDL passcode can control the panel.
+1. Change the panel's UDL passcode from the factory default (1234). The app refuses to
+   start with it, because anyone who knows the UDL passcode can control the panel.
+2. Fill in `host` and `udl_code` on the **Configuration** tab and start the app.
+3. Restart Home Assistant when the notification asks for it.
+4. Add **Texecom** under Settings > Devices & services (it is discovered automatically).
+
+Only one program can talk to the panel at a time: stop anything else that uses its
+ComIP/SmartCom. Full instructions are on the **Documentation** tab.
+
+**Experimental.** Start with `read_only: true` on a new panel.
 
 This is an independent project. It is not made, endorsed or supported by Texecom.
 Texecom and Premier Elite are trademarks of their owner and are used here only to
