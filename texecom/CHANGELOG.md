@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.3
+
+- The app registers the keypad card as a dashboard resource itself, with its version in
+  the URL so phones and browsers load the new card after an update. Needs access to the
+  Home Assistant API (`homeassistant_api`). Old manual registrations are replaced.
+
 ## 0.2.2
 
 - Voltages are shown with two decimals (13.72 V instead of 14 V).

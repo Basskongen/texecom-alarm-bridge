@@ -91,7 +91,7 @@ user codes and lockout protect it, as they do on the wall. Nothing is sent while
 `read_only` is on or `keypad_enabled` is off.
 
 Setup: enable `keypad_enabled` and restart the app. It writes `texecom-keypad.js` to
-`/config/www`. Add the card to a dashboard:
+`/config/www` and registers it as a dashboard resource itself. Add the card to a dashboard:
 
 ```yaml
 type: custom:texecom-keypad-card

@@ -1,5 +1,5 @@
 name: Texecom Alarm Bridge
-version: "0.2.2"
+version: "0.2.3"
 slug: texecom
 description: Connects Texecom alarm panels (ComIP/SmartCom) to Home Assistant via MQTT. Independent project, not affiliated with Texecom.
 stage: experimental
@@ -13,6 +13,7 @@ startup: services
 boot: auto
 services:
   - mqtt:need
+homeassistant_api: true
 options:
   host: ""
   port: 10001
