@@ -119,7 +119,8 @@ The card shows the panel's display and lamps live and sends each key to the pane
 is pressed. Only administrators can use it unless the integration option allows all
 users. Nothing is sent while `read_only` is on or `keypad_enabled` is off.
 
-With `keypad_enabled` on (the default), the app installs the card itself:
+With `keypad_enabled` on (the default), the app installs the card itself, and removes it
+again when the option is turned off:
 
 ```yaml
 type: custom:texecom-keypad-card

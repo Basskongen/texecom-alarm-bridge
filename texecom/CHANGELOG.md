@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.8
+
+- Turning the keypad off removes the keypad card and its dashboard resource again.
+
 ## 0.3.7
 
 - New option `show_digi_outputs` (on by default) next to `show_panel_outputs`.
