@@ -1,9 +1,9 @@
 name: Texecom Alarm Bridge
-version: "0.3.6"
+version: "0.3.7"
 slug: texecom
 description: Connects Texecom alarm panels (ComIP/SmartCom) to Home Assistant. Independent project, not affiliated with Texecom.
 stage: experimental
-url: https://github.com/Basskongen/texecom-hassio
+url: https://github.com/Basskongen/texecom-alarm-bridge
 image: ghcr.io/basskongen/texecom
 arch:
   - aarch64
@@ -18,8 +18,6 @@ options:
   host: ""
   port: 10001
   udl_code: ""
-  max_zones: 88
-  max_areas: 8
   poll_interval: 5
   read_only: false
   log_level: info
@@ -28,9 +26,10 @@ options:
   part_arm_3: armed_vacation
   zone_config: []
   area_config: []
-  keypad_enabled: false
+  keypad_enabled: true
   keypad_poll_interval: 0.25
   show_panel_outputs: false
+  show_digi_outputs: true
   show_control_timers: false
 map:
   - type: homeassistant_config
@@ -39,8 +38,8 @@ schema:
   host: str
   port: port
   udl_code: password
-  max_zones: int(8,200)
-  max_areas: int(1,16)
+  max_zones: int(8,640)?
+  max_areas: int(1,16)?
   poll_interval: int(2,60)
   read_only: bool
   log_level: list(debug|info|warning|error)
@@ -60,4 +59,5 @@ schema:
   keypad_enabled: bool
   keypad_poll_interval: float(0.25,10)
   show_panel_outputs: bool
+  show_digi_outputs: bool
   show_control_timers: bool

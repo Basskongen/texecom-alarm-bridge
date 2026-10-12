@@ -4,49 +4,52 @@ configuration:
     description: IP address or host name of the ComIP / SmartCom module.
   port:
     name: Panel port
-    description: TCP port of the ComIP / SmartCom module (normally 10001).
+    description: TCP port of the ComIP / SmartCom module. Default: 10001.
   udl_code:
     name: UDL code
     description: The panel's UDL passcode, 4 to 6 digits.
   max_zones:
     name: Number of zones
-    description: Highest zone number to look for.
+    description: Highest zone number to look for. Default: from the panel model.
   max_areas:
     name: Number of areas
-    description: Number of areas to read from the panel at start-up.
+    description: Number of areas to read. Default: from the panel model.
   part_arm_1:
     name: Part arm 1 shows as
-    description: Home Assistant arm state used for part arm 1 (can be overridden per area).
+    description: Home Assistant arm state for part arm 1 (can be set per area). Default: armed_home.
   part_arm_2:
     name: Part arm 2 shows as
-    description: Home Assistant arm state used for part arm 2.
+    description: Home Assistant arm state for part arm 2. Default: armed_night.
   part_arm_3:
     name: Part arm 3 shows as
-    description: Home Assistant arm state used for part arm 3.
+    description: Home Assistant arm state for part arm 3. Default: armed_vacation.
   zone_config:
     name: Zone overrides
-    description: Optional per-zone name and device class (door, motion, smoke, window, ...).
+    description: Own name and device class per zone (door, motion, smoke, window, ...). Default: none.
   area_config:
     name: Area overrides
-    description: Optional per-area name and part-arm mapping.
+    description: Own name and part-arm modes per area. Default: none.
   keypad_enabled:
     name: Keypad
-    description: Let the keypad card operate the panel.
+    description: Install the keypad card and let it operate the panel. Default: on.
   keypad_poll_interval:
     name: Keypad display refresh (seconds)
-    description: How often the keypad display is read while the keypad is on.
+    description: Seconds between keypad display reads while the keypad is on. Default: 0.25.
   show_panel_outputs:
     name: Show panel outputs
-    description: Show panel output 1-5 as entities in Home Assistant.
+    description: Show the panel's outputs as entities. Default: off.
+  show_digi_outputs:
+    name: Show digi outputs
+    description: Show the digi (communicator) outputs as entities. Default: on.
   show_control_timers:
     name: Show control timers
-    description: Show control timer 1-8 as entities in Home Assistant.
+    description: Show the control timers as entities. Default: off.
   poll_interval:
     name: Poll interval
-    description: Seconds between reads of voltages, tamper flags, clock and event log.
+    description: Seconds between reads of voltages, tamper flags, clock and event log. Default: 5.
   read_only:
     name: Read only
-    description: Never send anything that changes the panel (no arm, disarm or text).
+    description: Never send anything that changes the panel (no arm, disarm or text). Default: off.
   log_level:
     name: Log level
-    description: Amount of logging.
+    description: Amount of logging. Default: info.

@@ -6,10 +6,9 @@ ComIP or SmartCom module. The app talks to the panel; its own integration brings
 panel into Home Assistant with alarm panels, sensors and a keypad card. No MQTT
 broker needed.
 
-[![Add repository to Home Assistant](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2FBasskongen%2Ftexecom-hassio)
+[![Add repository to Home Assistant](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2FBasskongen%2Ftexecom-alarm-bridge)
 
 > **Experimental.** Tested on a Premier Elite 88 (firmware V5.06) with a ComIP.
-> Start with `read_only: true` on a new panel.
 
 ## Features
 
@@ -31,12 +30,12 @@ broker needed.
 - Home Assistant OS or Supervised, 2026.3 or newer.
 - A Texecom Premier Elite panel with a ComIP or SmartCom on a COM port, reachable on the network.
 - The panel's **UDL passcode**, changed from the factory default (see below).
-- No other program connected to the panel: it accepts one client at a time.
+- No other program connected to the same ComIP/SmartCom: it accepts one client at a time.
 
 ## Installation
 
 1. Select the button above, or add the repository by hand: **Settings > Apps > App store >
-   ⋮ > Repositories**, and add `https://github.com/Basskongen/texecom-hassio`.
+   ⋮ > Repositories**, and add `https://github.com/Basskongen/texecom-alarm-bridge`.
 2. Find **Texecom Alarm Bridge** in the app store and select **Install**.
 3. Open the **Configuration** tab and fill in at least:
    - `host`: the IP address of the ComIP / SmartCom
@@ -54,17 +53,21 @@ It refuses to start with the factory default for safety reasons.
 
 ### App options (Configuration tab)
 
-| Option | Default | What it does |
-|---|---|---|
-| `host`, `port` | –, 10001 | Address of the ComIP / SmartCom |
-| `udl_code` | – | UDL passcode (4 to 6 digits) |
-| `max_zones` | 88 | Highest zone number to look for. Found zones are remembered |
-| `max_areas` | 8 | Number of areas to read |
-| `part_arm_1` … `part_arm_3` | home, night, vacation | Which Home Assistant arm mode each part arm uses |
-| `zone_config`, `area_config` | – | Own names and device classes for zones, names and part-arm modes for areas |
-| `keypad_enabled` | off | Let the keypad card operate the panel |
-| `show_panel_outputs`, `show_control_timers` | off | Show panel outputs 1–5 and control timers 1–8 |
-| `read_only` | off | Refuse everything that changes the panel |
+| Option | | Example | What it does |
+|---|---|---|---|
+| `host` | required | `192.168.1.50` | IP address of the ComIP / SmartCom |
+| `udl_code` | required | `123456` | The panel's UDL passcode |
+| `port` | optional | `10001` | TCP port (default: 10001) |
+| `max_zones` | optional | `48` | Highest zone number to look for (default: from the panel model) |
+| `max_areas` | optional | `2` | Number of areas to read (default: from the panel model) |
+| `part_arm_1` … `part_arm_3` | optional | `armed_night` | Home Assistant arm mode for each part arm (default: armed_home, armed_night, armed_vacation) |
+| `zone_config` | optional | see the Documentation tab | Own name and device class per zone |
+| `area_config` | optional | see the Documentation tab | Own name and part-arm modes per area |
+| `keypad_enabled` | optional | `false` | Install the keypad card and let it operate the panel (default: on) |
+| `show_panel_outputs` | optional | `true` | Show the panel's outputs (default: off) |
+| `show_digi_outputs` | optional | `false` | Show the digi (communicator) outputs (default: on) |
+| `show_control_timers` | optional | `true` | Show the control timers (default: off) |
+| `read_only` | optional | `true` | Refuse everything that changes the panel (default: off) |
 
 All options are described in the app's **Documentation** tab.
 
@@ -79,7 +82,7 @@ All options are described in the app's **Documentation** tab.
 
 ### Keypad card
 
-With `keypad_enabled` on, the app installs the card and registers it as a dashboard resource.
+With `keypad_enabled` on (the default), the app installs the card and registers it as a dashboard resource.
 Add it to a dashboard:
 
 ```yaml

@@ -21,10 +21,8 @@ panel into Home Assistant. No MQTT broker needed.
 3. Restart Home Assistant when the notification asks for it.
 4. Add **Texecom** under Settings > Devices & services (it is discovered automatically).
 
-Only one program can talk to the panel at a time: stop anything else that uses its
-ComIP/SmartCom. Full instructions are on the **Documentation** tab.
-
-**Experimental.** Start with `read_only: true` on a new panel.
+A ComIP/SmartCom accepts one client at a time: stop anything else that uses the one
+the app connects to. Full instructions are on the **Documentation** tab.
 
 This is an independent project. It is not made, endorsed or supported by Texecom.
 Texecom and Premier Elite are trademarks of their owner and are used here only to
