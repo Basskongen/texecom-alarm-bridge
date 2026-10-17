@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.11
+
+- A new version of the integration waits under Settings > Updates. Install puts it in
+  place without restarting; Repairs then shows "Restart required".
+
 ## 0.3.10
 
 - New option `use_connect` (on by default). Connect reports changes instantly; when it is
