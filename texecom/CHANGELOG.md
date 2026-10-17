@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.12
+
+- Version bump of the app and the integration, to try the new integration update.
+
 ## 0.3.11
 
 - A new version of the integration waits under Settings > Updates. Install puts it in
