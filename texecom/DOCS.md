@@ -52,6 +52,7 @@ removed zones in the background.
 | `show_panel_outputs` | optional | `true` | Show the panel's outputs (default: off) |
 | `show_digi_outputs` | optional | `false` | Show the digi (communicator) outputs (default: on) |
 | `show_control_timers` | optional | `true` | Show the control timers (default: off) |
+| `use_connect` | optional | `false` | Connect reports changes instantly; when it is off, the app reacts more slowly (default: on) |
 | `poll_interval` | optional | `10` | Seconds between status reads (default: 5) |
 | `read_only` | optional | `true` | Refuse everything that changes the panel (default: off) |
 | `log_level` | optional | `debug` | Amount of logging (default: info) |

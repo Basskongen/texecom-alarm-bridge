@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.10
+
+- New option `use_connect` (on by default). Connect reports changes instantly; when it is
+  off, the app reacts more slowly.
+
 ## 0.3.9
 
 - A wrong UDL passcode is never retried: the app logs in once and then waits until the

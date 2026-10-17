@@ -44,6 +44,9 @@ configuration:
   show_control_timers:
     name: Show control timers
     description: Show the control timers as entities. Default: off.
+  use_connect:
+    name: Connect
+    description: Connect reports changes from the panel instantly. When it is off, the app reacts more slowly. Default: on.
   poll_interval:
     name: Poll interval
     description: Seconds between reads of voltages, tamper flags, clock and event log. Default: 5.
