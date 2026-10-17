@@ -49,6 +49,16 @@ broker needed.
 
 It refuses to start with the factory default for safety reasons.
 
+### Keep the UDL passcode in secrets.yaml (optional)
+
+Add it to `secrets.yaml`:
+
+```yaml
+texecom_udl_code: "123456"
+```
+
+and write `!secret texecom_udl_code` in `udl_code` instead of the passcode itself.
+
 ## Configuration
 
 ### App options (Configuration tab)

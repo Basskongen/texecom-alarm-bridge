@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.9
+
+- A wrong UDL passcode is never retried: the app logs in once and then waits until the
+  passcode is corrected and the app restarted.
+- The UDL passcode is a plain text field instead of a password field, so Home Assistant no
+  longer reports it as a leaked password. `!secret name` takes it from `secrets.yaml`.
+
 ## 0.3.8
 
 - Turning the keypad off removes the keypad card and its dashboard resource again.

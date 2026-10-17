@@ -7,7 +7,7 @@ configuration:
     description: TCP port of the ComIP / SmartCom module. Default: 10001.
   udl_code:
     name: UDL code
-    description: The panel's UDL passcode, 4 to 6 digits.
+    description: The panel's UDL passcode, or !secret name to take it from secrets.yaml.
   max_zones:
     name: Number of zones
     description: Highest zone number to look for. Default: from the panel model.

@@ -41,7 +41,7 @@ removed zones in the background.
 |--------|---|---------|-------------|
 | `host` | required | `192.168.1.50` | IP address of the ComIP / SmartCom |
 | `port` | optional | `10001` | TCP port (default: 10001) |
-| `udl_code` | required | `123456` | The panel's UDL passcode, 4 to 6 digits |
+| `udl_code` | required | `123456` | The panel's UDL passcode, or `!secret name` to take it from `secrets.yaml` |
 | `max_zones` | optional | `48` | Highest zone number to look for (default: from the panel model) |
 | `max_areas` | optional | `2` | Number of areas to read (default: from the panel model) |
 | `part_arm_1` … `part_arm_3` | optional | `armed_night` | Home Assistant arm mode for each part arm (default: armed_home, armed_night, armed_vacation) |
@@ -55,6 +55,16 @@ removed zones in the background.
 | `poll_interval` | optional | `10` | Seconds between status reads (default: 5) |
 | `read_only` | optional | `true` | Refuse everything that changes the panel (default: off) |
 | `log_level` | optional | `debug` | Amount of logging (default: info) |
+
+### Keep the UDL passcode in secrets.yaml (optional)
+
+Add it to `secrets.yaml`:
+
+```yaml
+texecom_udl_code: "123456"
+```
+
+and write `!secret texecom_udl_code` in `udl_code` instead of the passcode itself.
 
 Example:
 
@@ -136,8 +146,6 @@ style: nexus      # nexus or classic
 - Key presses and the UDL passcode are never written to the log.
 - The app never reads user codes or prox tags.
 - `read_only: true` lets you try the app without it changing anything on the panel.
-- A "pwned secret" repair for the UDL passcode can be dismissed (short numeric codes
-  are always on the leaked-password list).
 
 ## Support
 
