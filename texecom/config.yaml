@@ -1,0 +1,65 @@
+name: Texecom Alarm Bridge
+version: "1.0.0"
+slug: texecom
+description: Connects Texecom alarm panels (ComIP/SmartCom) to Home Assistant. Independent project, not affiliated with Texecom.
+stage: stable
+url: https://github.com/Basskongen/texecom-alarm-bridge
+image: ghcr.io/basskongen/texecom
+arch:
+  - aarch64
+  - amd64
+init: false
+startup: services
+boot: auto
+discovery:
+  - texecom
+homeassistant_api: true
+options:
+  host: ""
+  port: 10001
+  udl_code: ""
+  poll_interval: 5
+  read_only: false
+  log_level: info
+  part_arm_1: armed_home
+  part_arm_2: armed_night
+  part_arm_3: armed_vacation
+  zone_config: []
+  area_config: []
+  keypad_enabled: true
+  keypad_poll_interval: 0.25
+  show_panel_outputs: false
+  show_digi_outputs: true
+  show_control_timers: false
+  use_connect: true
+map:
+  - type: homeassistant_config
+    read_only: false
+schema:
+  host: str
+  port: port
+  udl_code: str
+  max_zones: int(8,640)?
+  max_areas: int(1,16)?
+  poll_interval: int(2,60)
+  read_only: bool
+  log_level: list(debug|info|warning|error)
+  part_arm_1: list(armed_home|armed_night|armed_vacation|armed_custom_bypass)
+  part_arm_2: list(armed_home|armed_night|armed_vacation|armed_custom_bypass)
+  part_arm_3: list(armed_home|armed_night|armed_vacation|armed_custom_bypass)
+  zone_config:
+    - number: int(1,999)
+      name: str?
+      device_class: str?
+  area_config:
+    - number: int(1,16)
+      name: str?
+      part_arm_1: list(armed_home|armed_night|armed_vacation|armed_custom_bypass)?
+      part_arm_2: list(armed_home|armed_night|armed_vacation|armed_custom_bypass)?
+      part_arm_3: list(armed_home|armed_night|armed_vacation|armed_custom_bypass)?
+  keypad_enabled: bool
+  keypad_poll_interval: float(0.25,10)
+  show_panel_outputs: bool
+  show_digi_outputs: bool
+  show_control_timers: bool
+  use_connect: bool
