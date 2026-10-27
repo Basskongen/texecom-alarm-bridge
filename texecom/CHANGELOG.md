@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.4
+
+- Fixed: the app still refused to start without `host`.
+
 ## 1.0.3
 
 - `host` is optional: left empty, the app looks for the panel on the network Home
