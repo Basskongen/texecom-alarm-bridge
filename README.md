@@ -61,7 +61,7 @@ and write `!secret texecom_udl_code` in `udl_code` instead of the passcode itsel
 
 | Option | | Example | What it does |
 |---|---|---|---|
-| `host` | required | `192.168.1.50` | IP address of the ComIP / SmartCom |
+| `host` | optional | `192.168.1.50` | IP address of the ComIP / SmartCom. Empty: the app looks for it on the network |
 | `udl_code` | required | `123456` | The panel's UDL passcode |
 | `port` | optional | `10001` | TCP port (default: 10001) |
 | `max_zones` | optional | `48` | Highest zone number to look for (default: from the panel model) |

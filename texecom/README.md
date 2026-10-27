@@ -15,7 +15,7 @@ panel into Home Assistant. No MQTT broker needed.
 
 **Getting started**
 
-1. Fill in `host` and `udl_code` on the **Configuration** tab and start the app.
+1. Fill in `udl_code` (and `host`, if you know it) on the **Configuration** tab and start the app.
 2. Restart Home Assistant when the notification asks for it.
 3. Add **Texecom** under Settings > Devices & services (it is discovered automatically).
 

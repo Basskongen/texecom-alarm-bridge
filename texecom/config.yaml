@@ -1,5 +1,5 @@
 name: Texecom Alarm Bridge
-version: "1.0.2"
+version: "1.0.3"
 slug: texecom
 description: Connects Texecom alarm panels (ComIP/SmartCom) to Home Assistant. Independent project, not affiliated with Texecom.
 stage: stable
@@ -14,6 +14,7 @@ boot: auto
 discovery:
   - texecom
 homeassistant_api: true
+hassio_api: true
 options:
   host: ""
   port: 10001
@@ -37,7 +38,7 @@ map:
   - type: homeassistant_config
     read_only: false
 schema:
-  host: str
+  host: str?
   port: port
   udl_code: str
   max_zones: int(8,640)?

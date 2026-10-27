@@ -34,7 +34,7 @@ removed zones in the background.
 
 | Option | | Example | Description |
 |--------|---|---------|-------------|
-| `host` | required | `192.168.1.50` | IP address of the ComIP / SmartCom |
+| `host` | optional | `192.168.1.50` | IP address of the ComIP / SmartCom. Empty: the app looks for it on the network |
 | `port` | optional | `10001` | TCP port (default: 10001) |
 | `udl_code` | required | `123456` | The panel's UDL passcode, or `!secret name` to take it from `secrets.yaml` |
 | `max_zones` | optional | `48` | Highest zone number to look for (default: from the panel model) |

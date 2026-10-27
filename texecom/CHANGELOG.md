@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.3
+
+- `host` is optional: left empty, the app looks for the panel on the network Home
+  Assistant is on.
+
 ## 1.0.2
 
 - Fixed a bug in the UDL passcode check.

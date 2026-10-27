@@ -1,7 +1,7 @@
 configuration:
   host:
     name: Panel address
-    description: IP address or host name of the ComIP / SmartCom module.
+    description: IP address or host name of the ComIP / SmartCom module. Leave empty to let the app find it on the network.
   port:
     name: Panel port
     description: TCP port of the ComIP / SmartCom module. Default: 10001.
