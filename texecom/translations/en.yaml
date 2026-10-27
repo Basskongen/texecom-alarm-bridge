@@ -47,6 +47,9 @@ configuration:
   use_connect:
     name: Connect
     description: Connect enabled = faster communication with the panel. Default: on.
+  find_panel:
+    name: Find the panel
+    description: If the panel does not answer on host, look for it on the local network. Default: on.
   poll_interval:
     name: Poll interval
     description: Seconds between reads of voltages, tamper flags, clock and event log. Default: 5.

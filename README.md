@@ -78,6 +78,7 @@ and write `!secret texecom_udl_code` in `udl_code` instead of the passcode itsel
 | `show_digi_outputs` | optional | `false` | Show the digi (communicator) outputs (default: on) |
 | `show_control_timers` | optional | `true` | Show the control timers (default: off) |
 | `use_connect` | optional | `false` | Connect enabled = faster communication with the panel (default: on) |
+| `find_panel` | optional | `false` | If the panel does not answer on `host`, the app looks for it on the local network (default: on) |
 | `read_only` | optional | `true` | Refuse everything that changes the panel (default: off) |
 
 All options are described in the app's **Documentation** tab.

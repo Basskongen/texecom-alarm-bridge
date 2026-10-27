@@ -53,6 +53,7 @@ removed zones in the background.
 | `show_digi_outputs` | optional | `false` | Show the digi (communicator) outputs (default: on) |
 | `show_control_timers` | optional | `true` | Show the control timers (default: off) |
 | `use_connect` | optional | `false` | Connect enabled = faster communication with the panel (default: on) |
+| `find_panel` | optional | `false` | If the panel does not answer on `host`, the app looks for it on the local network (default: on) |
 | `poll_interval` | optional | `10` | Seconds between status reads (default: 5) |
 | `read_only` | optional | `true` | Refuse everything that changes the panel (default: off) |
 | `log_level` | optional | `debug` | Amount of logging (default: info) |
