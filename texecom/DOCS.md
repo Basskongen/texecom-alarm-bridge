@@ -17,11 +17,6 @@ A ComIP/SmartCom accepts one client at a time. Stop anything else that uses the 
 app connects to. After a dropped connection the panel refuses
 new connections for about a minute; the app waits and retries by itself.
 
-## Before you start: change the UDL passcode
-
-The app refuses to start with the factory default UDL passcode for safety reasons.
-Change it on the panel first and use the new code in the app settings.
-
 ## Installation
 
 1. Add this repository in Settings > Apps > App store > ⋮ > Repositories.

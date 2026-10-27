@@ -15,11 +15,9 @@ panel into Home Assistant. No MQTT broker needed.
 
 **Getting started**
 
-1. Change the panel's UDL passcode from the factory default. The app refuses to start
-   with it for safety reasons.
-2. Fill in `host` and `udl_code` on the **Configuration** tab and start the app.
-3. Restart Home Assistant when the notification asks for it.
-4. Add **Texecom** under Settings > Devices & services (it is discovered automatically).
+1. Fill in `host` and `udl_code` on the **Configuration** tab and start the app.
+2. Restart Home Assistant when the notification asks for it.
+3. Add **Texecom** under Settings > Devices & services (it is discovered automatically).
 
 A ComIP/SmartCom accepts one client at a time: stop anything else that uses the one
 the app connects to. Full instructions are on the **Documentation** tab.

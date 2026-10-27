@@ -29,7 +29,7 @@ broker needed.
 
 - Home Assistant OS or Supervised, 2026.3 or newer.
 - A Texecom Premier Elite panel with a ComIP or SmartCom on a COM port, reachable on the network.
-- The panel's **UDL passcode**, changed from the factory default (see below).
+- The panel's **UDL passcode**.
 - No other program connected to the same ComIP/SmartCom: it accepts one client at a time.
 
 ## Installation
@@ -44,10 +44,6 @@ broker needed.
    restart of Home Assistant.
 5. After the restart, **Settings > Devices & services** shows **Texecom** as discovered.
    Select **Add**. The panel appears as a device named after its model.
-
-### Change the UDL passcode first
-
-It refuses to start with the factory default for safety reasons.
 
 ### Keep the UDL passcode in secrets.yaml (optional)
 
