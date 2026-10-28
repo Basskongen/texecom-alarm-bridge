@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.6
+
+- A memory read the panel does not answer in time is sent once more before it counts
+  as a failure, so a slow panel no longer drops the connection during start-up.
+- The log says which command got no reply.
+- The network search runs only when nothing answers on the panel's address.
+
 ## 1.0.5
 
 - Fixed: with `host` left empty, Home Assistant could not create the panel's entities.
