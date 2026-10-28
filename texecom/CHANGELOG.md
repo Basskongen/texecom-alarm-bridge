@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.8
+
+- Diagnostics: administrators can read panel memory through the integration
+  (websocket command `texecom/read_memory`), to map panels with another memory layout.
+
 ## 1.0.7
 
 - One diagnostics line in the log at start (panel model, raw display bytes, log pointer),
