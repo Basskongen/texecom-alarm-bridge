@@ -3,7 +3,8 @@
 ## 1.0.7
 
 - One diagnostics line in the log at start (panel model, raw display bytes, log pointer),
-  to tell panels with another memory layout apart.
+  to tell panels with another memory layout apart. When the display reads empty, the
+  app looks for the display text in the panel's memory and logs where it is.
 
 ## 1.0.6
 
