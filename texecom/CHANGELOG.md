@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.7
+
+- One diagnostics line in the log at start (panel model, raw display bytes, log pointer),
+  to tell panels with another memory layout apart.
+
 ## 1.0.6
 
 - A memory read the panel does not answer in time is sent once more before it counts
