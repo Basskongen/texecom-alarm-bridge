@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.0.9
+
+- Panels other than the Premier Elite 88 (for example the Elite 64) keep the keypad
+  display, the clock and the area flags at other places in memory. On those models the
+  app now takes area status, the display and the clock from the panel's Connect
+  commands, so the alarm panel, the area sensors and the keypad card work. Outputs,
+  system faults and the keypad LEDs stay unavailable there until mapped.
+- Fixed: on such a panel the areas could show as armed while disarmed.
+
 ## 1.0.8
 
 - Diagnostics: administrators can read panel memory through the integration

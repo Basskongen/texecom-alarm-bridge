@@ -53,6 +53,14 @@ removed zones in the background.
 | `read_only` | optional | `true` | Refuse everything that changes the panel (default: off) |
 | `log_level` | optional | `debug` | Amount of logging (default: info) |
 
+### Panel models
+
+The memory addresses the app reads were mapped on a Premier Elite 88. On other models
+(the Premier Elite 64, for example) the app takes area status, the keypad display and
+the clock from the panel's Connect commands instead, so `use_connect` must stay on
+there. Outputs, battery/mains faults and the keypad LEDs are not available on those
+models yet; the log line "no memory map for this model" at start says when this applies.
+
 ### Keep the UDL passcode in secrets.yaml (optional)
 
 Add it to `secrets.yaml`:
