@@ -1,9 +1,14 @@
 # Changelog
 
+## 1.0.11
+
+- Fixed: the area flags are 72, not 73; asking for one more made the panel refuse the
+  request and then stop answering, so the area status stayed unknown with 1.0.9 and 1.0.10.
+  Should a panel refuse a request, the flags are read in smaller requests.
+
 ## 1.0.10
 
-- Fixed: the Premier Elite 64 refuses to answer all 73 area flags in one request, so the
-  area status stayed unknown with 1.0.9. The flags are now read in smaller requests.
+- The area flags are read in smaller requests when the panel refuses a large one.
 
 ## 1.0.9
 
