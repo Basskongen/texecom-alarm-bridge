@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.12
+
+- New option `panel_model`: `premier_elite_88` reads everything from the panel's memory
+  as before, `other` uses Connect for area status, display and clock, `auto` (default)
+  decides by the model the panel reports.
+
 ## 1.0.11
 
 - Fixed: the area flags are 72, not 73; asking for one more made the panel refuse the

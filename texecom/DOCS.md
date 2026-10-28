@@ -48,6 +48,7 @@ removed zones in the background.
 | `show_digi_outputs` | optional | `false` | Show the digi (communicator) outputs (default: on) |
 | `show_control_timers` | optional | `true` | Show the control timers (default: off) |
 | `use_connect` | optional | `false` | Connect enabled = faster communication with the panel (default: on) |
+| `panel_model` | optional | `premier_elite_88` | `auto` (by the model the panel reports), `premier_elite_88` (read everything from memory: outputs, faults, keypad LEDs) or `other` (Connect for area status, display and clock). Default: auto |
 | `find_panel` | optional | `false` | If the panel does not answer on `host`, the app looks for it on the local network (default: on) |
 | `poll_interval` | optional | `10` | Seconds between status reads (default: 5) |
 | `read_only` | optional | `true` | Refuse everything that changes the panel (default: off) |
@@ -60,6 +61,7 @@ The memory addresses the app reads were mapped on a Premier Elite 88. On other m
 the clock from the panel's Connect commands instead, so `use_connect` must stay on
 there. Outputs, battery/mains faults and the keypad LEDs are not available on those
 models yet; the log line "no memory map for this model" at start says when this applies.
+The option `panel_model` overrides what the panel reports.
 
 ### Keep the UDL passcode in secrets.yaml (optional)
 

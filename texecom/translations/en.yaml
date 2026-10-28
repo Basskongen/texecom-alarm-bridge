@@ -50,6 +50,9 @@ configuration:
   find_panel:
     name: Find the panel
     description: If the panel does not answer on host, look for it on the local network. Default: on.
+  panel_model:
+    name: Panel model
+    description: "premier_elite_88: read everything from the panel's memory (outputs, faults, keypad LEDs). other: use Connect for area status, display and clock. auto: by the model the panel reports. Default: auto."
   poll_interval:
     name: Poll interval
     description: Seconds between reads of voltages, tamper flags, clock and event log. Default: 5.
