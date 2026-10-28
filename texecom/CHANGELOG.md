@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.10
+
+- Fixed: the Premier Elite 64 refuses to answer all 73 area flags in one request, so the
+  area status stayed unknown with 1.0.9. The flags are now read in smaller requests.
+
 ## 1.0.9
 
 - Panels other than the Premier Elite 88 (for example the Elite 64) keep the keypad
